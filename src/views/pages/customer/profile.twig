@@ -1,0 +1,61 @@
+{#
+    Customer profile — clean form, native Twilight submit.
+#}
+{% extends "layouts.customer" %}
+
+{% block inner_content %}
+    {% hook 'customer:profile.form.start' %}
+
+    <form class="form form--user-profile ajax account-card"
+          onsubmit="return salla.form.onSubmit('profile.update', event)">
+        <div style="display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+
+            {% hook 'customer:profile.form.fields.start' %}
+
+            <div>
+                <label for="first-name" class="form-label"><b>{{ trans('pages.profile.first_name') }}</b></label>
+                <input type="text" name="first_name" value="{{ user.first_name }}" id="first-name" required
+                       autocomplete="given-name" class="form-input" style="width:100%;margin-top:0.4rem;">
+            </div>
+
+            <div>
+                <label for="last-name" class="form-label"><b>{{ trans('pages.profile.last_name') }}</b></label>
+                <input type="text" name="last_name" value="{{ user.last_name }}" id="last-name" required
+                       autocomplete="family-name" class="form-input" style="width:100%;margin-top:0.4rem;">
+            </div>
+
+            <div>
+                <label for="birthday" class="form-label"><b>{{ trans('pages.profile.birthday') }}</b></label>
+                <salla-datetime-picker dateFormat="Y-m-d" value="{{ user.birthday }}"
+                                       placeholder="{{ trans('pages.profile.birthday_placeholder') }}"
+                                       name="birthday" id="birthday"></salla-datetime-picker>
+            </div>
+
+            <div>
+                <label for="gender" class="form-label"><b>{{ trans('pages.profile.gender') }}</b></label>
+                <select class="form-input" name="gender" id="gender" style="width:100%;margin-top:0.4rem;">
+                    <option placeholder value="">{{ trans('pages.profile.gender_placeholder') }}</option>
+                    <option value="male" {{ user.gender == 'male' ? 'selected' : '' }}>{{ trans('pages.profile.male') }}</option>
+                    <option value="female" {{ user.gender == 'female' ? 'selected' : '' }}>{{ trans('pages.profile.female') }}</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label"><b>{{ trans('pages.profile.email') }}</b></label>
+                <salla-tel-input hidden></salla-tel-input>
+                <input type="email" value="{{ user.email }}" class="form-input" style="width:100%;margin-top:0.4rem;"
+                       disabled aria-readonly="true">
+            </div>
+
+            <div>
+                <label class="form-label"><b>{{ trans('pages.profile.mobile') }}</b></label>
+                <input type="tel" value="{{ user.mobile }}" class="form-input latin" style="width:100%;margin-top:0.4rem;"
+                       disabled aria-readonly="true" dir="ltr">
+            </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+            <salla-button type="submit" width="wide">{{ trans('common.elements.save') }}</salla-button>
+        </div>
+    </form>
+{% endblock %}

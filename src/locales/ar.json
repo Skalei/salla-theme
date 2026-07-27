@@ -1,0 +1,103 @@
+{
+    "wow": {
+        "worlds": {
+            "chocolate_tab": "WOW شوكليت",
+            "coffee_tab": "The Khey Coffee",
+            "chocolate_kicker": "عالم الشوكولاتة",
+            "coffee_kicker": "عالم القهوة",
+            "chocolate_title": "شوكولاتة تصنع ردة فعل",
+            "coffee_title": "قهوة تهدّي الجو",
+            "enter_world": "ادخل العالم",
+            "chocolate_cross_title": "ودّك بشي حلو معها؟",
+            "chocolate_cross_text": "قطعة WOW مع فنجانك... جرّبها",
+            "coffee_cross_title": "القهوة بدون شوكولاتة؟ ناقصة",
+            "cross_cta": "كمّل الثنائي",
+            "shelf_title": "الرف",
+            "story_eyebrow_chocolate": "القصة",
+            "story_eyebrow_coffee": "الطقوس"
+        },
+        "home": {
+            "discover_all": "كلها هنا",
+            "spotlight_cta": "جرّبها قبل الكل",
+            "ugc_hint": "صوّر ردة فعلك وعلّمنا",
+            "bundle_badge": "بوكس",
+            "new_badge": "جديد",
+            "limited_badge": "إصدار محدود"
+        },
+        "product": {
+            "share_title": "لا تخليها لك بس",
+            "share_hint": "أرسلها لأحد يستاهل",
+            "copy_link": "انسخ الرابط",
+            "copied": "انسخناه لك ✓",
+            "pairs_with": "يحلو معها",
+            "reviews_title": "قالوا عنها",
+            "reveal_title": "لحظة الكشف",
+            "flavor_details": "التفاصيل",
+            "add_note": "أضف ملاحظتك",
+            "quantity": "الكمية",
+            "out_of_stock": "خلصت... بترجع قريب",
+            "notify_me": "علّمني إذا رجعت"
+        },
+        "cart": {
+            "title": "سلتك",
+            "empty_title": "سلتك فاضية... للحين",
+            "empty_hint": "في نكهات تنتظر أحد يكتشفها",
+            "empty_cta": "ابدأ الاكتشاف",
+            "summary_title": "ملخص الطلب",
+            "subtotal": "المجموع الفرعي",
+            "shipping": "الشحن",
+            "shipping_later": "يُحسب عند إتمام الطلب",
+            "discount": "الخصم",
+            "tax": "الضريبة",
+            "total": "الإجمالي",
+            "checkout": "أكمل الطلب",
+            "delivery_title": "توصيلك",
+            "addons_title": "يكمّلون طلبك",
+            "remove": "إزالة",
+            "free": "مجاناً"
+        },
+        "thankyou": {
+            "title": "وصلنا طلبك... والباقي علينا",
+            "subtitle": "نجهّزها بعناية — استعد للحظة الفتح",
+            "share": "علّم ربعك وش جاي",
+            "order_details": "تفاصيل الطلب",
+            "keep_shopping": "كمّل اكتشاف"
+        },
+        "account": {
+            "welcome": "هلا فيك",
+            "profile": "حسابي",
+            "orders": "طلباتي",
+            "wishlist": "المفضلة",
+            "notifications": "التنبيهات",
+            "wallet": "المحفظة",
+            "loyalty": "نقاطي",
+            "wishlist_empty": "لسّا ما فضّلت شي — في نكهات تستاهل",
+            "orders_empty": "أول طلب لك بيكون قصة",
+            "notifications_empty": "ما فيه جديد... للحين",
+            "order_number": "طلب رقم",
+            "reorder": "اطلبها مرة ثانية",
+            "track": "تتبع الشحنة"
+        },
+        "loyalty": {
+            "your_points": "نقاطك",
+            "ways_title": "اجمع نقاط... بدون ما تحس",
+            "prizes_title": "بدّلها بأشياء تسوّي واو",
+            "join_hint": "سجّل دخولك وابدأ الجمع"
+        },
+        "blog": {
+            "read_more": "كمّل القراءة",
+            "related": "يعجبك بعد",
+            "by": "بقلم"
+        },
+        "footer": {
+            "quick_links": "روابط تهمك",
+            "contact": "كلمنا",
+            "follow": "تابعنا — وشوف الكشف قبل الكل"
+        },
+        "landing": {
+            "expired_title": "فاتك العرض... بس ما فاتك كل شي",
+            "expired_cta": "شوف الموجود الحين",
+            "ends_in": "ينتهي خلال"
+        }
+    }
+}

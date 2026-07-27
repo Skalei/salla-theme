@@ -1,0 +1,99 @@
+/* ============================================================
+   01 — DESIGN TOKENS
+   The single source of truth for the WOW identity.
+   --color-primary / --font-main are injected by master.twig from
+   the merchant dashboard (Twilight `color` + `fonts` features);
+   everything else is defined here.
+   ============================================================ */
+
+:root {
+  /* ---- Primary palette ---- */
+  --c-yellow: #E2C044;   /* hero / signature */
+  --c-pink:   #DF7C99;
+  --c-blue:   #4A9BC5;
+  --c-green:  #A2BD42;
+  --c-beige:  #EAD0B5;   /* base / negative space */
+  --c-brown:  #5F3E39;   /* chocolate / deep text */
+
+  /* ---- Secondary palette ---- */
+  --c-blue-light:   #96CDF6;
+  --c-pink-light:   #F3AEC6;
+  --c-yellow-light: #EECE65;
+  --c-green-light:  #C1D797;
+  --c-purple:       #70448F;
+
+  /* ---- Semantic tokens ---- */
+  --color-primary: var(--c-yellow);          /* overridden from dashboard in master.twig */
+  --color-primary-reverse: var(--c-brown);
+  --bg-page: #FBF6EF;                        /* off-white with a beige warmth */
+  --bg-surface: #FFFFFF;
+  --bg-soft: #F5EADB;
+  --text-main: var(--c-brown);
+  --text-soft: #8A6F63;                      /* brown, lifted for secondary text */
+  --border-soft: #EFE2CF;
+  --danger: #C0392B;
+  --success: var(--c-green);
+
+  /* ---- World tokens (defaults = chocolate world) ---- */
+  --world-accent: var(--c-yellow);
+  --world-accent-soft: var(--c-yellow-light);
+  --world-deep: var(--c-brown);
+  --world-bg: var(--bg-page);
+  --world-pop-1: var(--c-pink);
+  --world-pop-2: var(--c-blue);
+
+  /* ---- Typography ----
+     --font-main comes from the dashboard (body text).
+     --font-brand is the WOW identity type and stays on headings. */
+  --font-main: 'Kohinoor Arabic', 'Montserrat', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --font-brand: 'Kohinoor Arabic', 'Montserrat', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --font-latin: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-hero: clamp(2rem, 5.5vw, 3.75rem);
+  --fs-h1: clamp(1.6rem, 3.5vw, 2.5rem);
+  --fs-h2: clamp(1.3rem, 2.6vw, 1.9rem);
+  --fs-h3: 1.15rem;
+  --fs-body: 1rem;
+  --fs-small: 0.85rem;
+
+  /* ---- Space & shape: generous negative space, soft premium shapes ---- */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 3rem;
+  --space-section: clamp(3.5rem, 8vw, 6.5rem);
+  --radius-s: 10px;
+  --radius-m: 18px;
+  --radius-l: 28px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 8px 30px rgba(95, 62, 57, 0.08);
+  --shadow-lift: 0 14px 44px rgba(95, 62, 57, 0.16);
+  --container: 1200px;
+  --transition: 220ms cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+/* ============================================================
+   THE TWO WORLDS
+   Any wrapper carrying data-world switches the mood of everything
+   inside it — same identity system, different temperature.
+   ============================================================ */
+
+/* World 1 — WOW Chocolate: playful, bold, high-craving */
+[data-world="chocolate"] {
+  --world-accent: var(--c-yellow);
+  --world-accent-soft: var(--c-yellow-light);
+  --world-deep: var(--c-brown);
+  --world-bg: #FBF6EF;
+  --world-pop-1: var(--c-pink);
+  --world-pop-2: var(--c-blue);
+}
+
+/* World 2 — The Khey Coffee: warmer, calmer, grounded, premium */
+[data-world="coffee"] {
+  --world-accent: var(--c-green);
+  --world-accent-soft: var(--c-green-light);
+  --world-deep: var(--c-brown);
+  --world-bg: #F4E9DC;                /* deeper beige — slower, editorial */
+  --world-pop-1: var(--c-beige);
+  --world-pop-2: var(--c-green-light);
+}

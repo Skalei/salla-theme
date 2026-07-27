@@ -1,0 +1,36 @@
+{#
+| Variable | Type         | Description                                     |
+|----------|--------------|-------------------------------------------------|
+| brands   | Collection[] | grouped by first letter: {'ب': [brand, ...]}    |
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="breadcrumb">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+
+        <header class="listing-head">
+            <h1 class="listing-head__title">{{ page.title | raw }}</h1>
+        </header>
+
+        {% hook 'brands:index.items.start' %}
+
+        {% for letter, group in brands %}
+            <section class="brands-group">
+                <h2 class="brands-group__letter latin">{{ letter }}</h2>
+                <div class="brands-grid">
+                    {% for brand in group %}
+                        <a class="brand-tile" href="{{ brand.url }}">
+                            <img loading="lazy" src="{{ brand.logo }}" alt="{{ brand.name }}">
+                            <span>{{ brand.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+
+        {% hook 'brands:index.items.end' %}
+    </div>
+{% endblock %}

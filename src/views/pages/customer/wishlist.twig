@@ -1,0 +1,22 @@
+{#
+    Wishlist — the "later" shelf.
+#}
+{% extends "layouts.customer" %}
+
+{% block inner_title %}
+    <h1 style="margin-bottom:1.5rem;">{{ trans('wow.account.wishlist') }}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    {% hook 'customer:wishlist.items.start' %}
+
+    <salla-products-list source="wishlist" source-value="{{ user.id }}">
+        <div slot="empty" class="no-content-placeholder">
+            <i class="sicon-heart" aria-hidden="true"></i>
+            <p>{{ trans('wow.account.wishlist_empty') }}</p>
+            <a class="btn btn--primary" href="{{ link('/') }}">{{ trans('wow.cart.empty_cta') }}</a>
+        </div>
+    </salla-products-list>
+
+    {% hook 'customer:wishlist.items.end' %}
+{% endblock %}

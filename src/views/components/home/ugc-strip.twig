@@ -1,0 +1,30 @@
+{#
+    Creators Reaction Strip — vertical-first UGC (reels/reveal clips).
+    Fields: title, clips[] { poster, video_url, creator, link }
+    Videos are muted, lazy, play on hover/tap (js/home.js).
+#}
+{% if clips | length %}
+<section class="section ugc-strip">
+    <div class="container">
+        <div class="section__head">
+            <h2 class="section__title">{{ title }}</h2>
+            <span style="color:var(--text-soft);font-size:var(--fs-small);">{{ trans('wow.home.ugc_hint') }}</span>
+        </div>
+
+        <div class="ugc-strip__scroller">
+            {% for clip in clips %}
+                <a class="ugc-card" href="{{ clip.link ?: '#' }}" {% if clip.link %}target="_blank" rel="noopener"{% endif %}>
+                    {% if clip.video_url %}
+                        <video muted loop playsinline preload="none" poster="{{ clip.poster }}" data-ugc-video>
+                            <source data-src="{{ clip.video_url }}" type="video/mp4">
+                        </video>
+                    {% else %}
+                        <img loading="lazy" width="720" height="1280" src="{{ clip.poster }}" alt="{{ clip.creator ?: 'WOW moment' }}">
+                    {% endif %}
+                    {% if clip.creator %}<span class="ugc-card__creator">{{ clip.creator }}</span>{% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

@@ -1,0 +1,48 @@
+{#
+    Footer — deep chocolate ground, the tagline gets the yellow.
+    Merchant wiring: footer_tagline (theme settings).
+#}
+<footer class="store-footer">
+    <div class="container">
+        <div class="store-footer__grid">
+            <div>
+                <a href="{{ store.url }}" aria-label="{{ store.name }}">
+                    <img loading="lazy" src="{{ store.logo | cdn(150) }}" alt="{{ store.name }}" style="height:56px;width:auto;margin-bottom:1rem;">
+                </a>
+                <p class="store-footer__tagline">{{ theme.settings.get('footer_tagline', trans('wow.worlds.chocolate_title')) }}</p>
+                {% if store.description %}
+                    <div style="margin-top:0.75rem;max-width:34ch;opacity:0.85;">{{ store.description | raw }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <h3>{{ trans('wow.footer.quick_links') }}</h3>
+                <salla-menu source="footer" with-cookie-preferences></salla-menu>
+            </div>
+
+            <div>
+                <h3>{{ trans('wow.footer.contact') }}</h3>
+                <salla-contacts></salla-contacts>
+            </div>
+
+            <div>
+                <h3>{{ trans('wow.footer.follow') }}</h3>
+                <salla-social></salla-social>
+                <div style="margin-top:1.5rem;display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;">
+                    <salla-trust-badges dark></salla-trust-badges>
+                    {% if store.settings.tax.number %}
+                        <div>
+                            <p style="font-size:var(--fs-small);opacity:0.8;margin-bottom:0.25rem;">{{ trans('common.elements.tax_number') }}</p>
+                            <b style="font-size:var(--fs-small);">{{ store.settings.tax.number }}</b>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="store-footer__bottom">
+            <span>© {{ "now" | date("Y") }} {{ store.name }}</span>
+            <salla-payments></salla-payments>
+        </div>
+    </div>
+</footer>

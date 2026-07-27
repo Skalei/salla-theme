@@ -1,0 +1,103 @@
+{
+    "wow": {
+        "worlds": {
+            "chocolate_tab": "WOW Chocolate",
+            "coffee_tab": "The Khey Coffee",
+            "chocolate_kicker": "The chocolate world",
+            "coffee_kicker": "The coffee world",
+            "chocolate_title": "Chocolate built to create a reaction",
+            "coffee_title": "Coffee that slows the moment down",
+            "enter_world": "Enter the world",
+            "chocolate_cross_title": "Something sweet to go with it?",
+            "chocolate_cross_text": "A piece of WOW with your cup... try it",
+            "coffee_cross_title": "Coffee without chocolate? Incomplete",
+            "cross_cta": "Complete the pair",
+            "shelf_title": "The shelf",
+            "story_eyebrow_chocolate": "The story",
+            "story_eyebrow_coffee": "The ritual"
+        },
+        "home": {
+            "discover_all": "See them all",
+            "spotlight_cta": "Try it before everyone",
+            "ugc_hint": "Film your reaction and tag us",
+            "bundle_badge": "Box",
+            "new_badge": "New",
+            "limited_badge": "Limited edition"
+        },
+        "product": {
+            "share_title": "Don't keep it to yourself",
+            "share_hint": "Send it to someone who deserves it",
+            "copy_link": "Copy link",
+            "copied": "Copied ✓",
+            "pairs_with": "Pairs well with",
+            "reviews_title": "What they said",
+            "reveal_title": "The reveal",
+            "flavor_details": "Details",
+            "add_note": "Add your note",
+            "quantity": "Quantity",
+            "out_of_stock": "Sold out... coming back soon",
+            "notify_me": "Notify me when it's back"
+        },
+        "cart": {
+            "title": "Your cart",
+            "empty_title": "Your cart is empty... for now",
+            "empty_hint": "There are flavors waiting to be discovered",
+            "empty_cta": "Start discovering",
+            "summary_title": "Order summary",
+            "subtotal": "Subtotal",
+            "shipping": "Shipping",
+            "shipping_later": "Calculated at checkout",
+            "discount": "Discount",
+            "tax": "Tax",
+            "total": "Total",
+            "checkout": "Checkout",
+            "delivery_title": "Your delivery",
+            "addons_title": "They complete your order",
+            "remove": "Remove",
+            "free": "Free"
+        },
+        "thankyou": {
+            "title": "Order received... the rest is on us",
+            "subtitle": "We're preparing it with care — get ready for the unboxing",
+            "share": "Let your friends know what's coming",
+            "order_details": "Order details",
+            "keep_shopping": "Keep discovering"
+        },
+        "account": {
+            "welcome": "Welcome back",
+            "profile": "My account",
+            "orders": "My orders",
+            "wishlist": "Wishlist",
+            "notifications": "Notifications",
+            "wallet": "Wallet",
+            "loyalty": "My points",
+            "wishlist_empty": "Nothing saved yet — there are flavors worth it",
+            "orders_empty": "Your first order will be a story",
+            "notifications_empty": "Nothing new... yet",
+            "order_number": "Order no.",
+            "reorder": "Order it again",
+            "track": "Track shipment"
+        },
+        "loyalty": {
+            "your_points": "Your points",
+            "ways_title": "Collect points... without noticing",
+            "prizes_title": "Trade them for things that say WOW",
+            "join_hint": "Sign in and start collecting"
+        },
+        "blog": {
+            "read_more": "Keep reading",
+            "related": "You might also like",
+            "by": "By"
+        },
+        "footer": {
+            "quick_links": "Useful links",
+            "contact": "Talk to us",
+            "follow": "Follow us — see the reveal first"
+        },
+        "landing": {
+            "expired_title": "You missed the offer... but not everything",
+            "expired_cta": "See what's available now",
+            "ends_in": "Ends in"
+        }
+    }
+}

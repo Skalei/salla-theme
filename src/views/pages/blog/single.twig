@@ -1,0 +1,64 @@
+{#
+| Variable | Type    | Description                                              |
+|----------|---------|----------------------------------------------------------|
+| article  | Article | title, body, image, created_at, author, related, tags    |
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="breadcrumb">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+
+        <article>
+            {% if article.has_image %}
+                <div class="article-hero">
+                    <img loading="eager" fetchpriority="high" width="1200" height="480"
+                         src="{{ article.image.url }}" alt="{{ article.image.alt ?: article.title }}">
+                </div>
+            {% endif %}
+
+            <div class="article-body">
+                <h1 style="margin-bottom:0.75rem;">{{ article.title }}</h1>
+                <p style="color:var(--text-soft);font-size:var(--fs-small);margin-bottom:2rem;">
+                    {% if article.author.name %}{{ trans('wow.blog.by') }} <a href="{{ article.author.url }}">{{ article.author.name }}</a> · {% endif %}
+                    {% if article.created_at %}<time>{{ article.created_at | date }}</time>{% endif %}
+                </p>
+
+                {{ article.body | raw }}
+
+                {% if article.tags | length %}
+                    <div class="blog-cats" style="margin-top:2rem;">
+                        {% for tag in article.tags %}
+                            <a href="{{ tag.url }}">#{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </article>
+
+        {% if article.related | length %}
+            <section class="section section--tight">
+                <div class="section__head">
+                    <h2 class="section__title">{{ trans('wow.blog.related') }}</h2>
+                </div>
+                <div class="blog-grid">
+                    {% for related in article.related %}
+                        <article class="article-card">
+                            {% if related.has_image %}
+                                <a href="{{ related.url }}">
+                                    <img class="article-card__img" loading="lazy" width="600" height="375"
+                                         src="{{ related.thumbnail ?: related.image.url }}" alt="{{ related.title }}">
+                                </a>
+                            {% endif %}
+                            <div class="article-card__body">
+                                <h3><a href="{{ related.url }}">{{ related.title }}</a></h3>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{#
+    Twilight predefined: testimonials (store/product reviews).
+    Variables: limit, type, sort, hide_customer_info
+#}
+<section class="section testimonials">
+    <div class="container">
+        <div class="section__head">
+            <h2 class="section__title">{{ trans('wow.product.reviews_title') }}</h2>
+        </div>
+        <salla-reviews limit="{{ limit ?: 10 }}"
+                       type="{{ type ?: 'store' }}"
+                       {{ hide_customer_info ? 'hide-customer-info' : '' }}></salla-reviews>
+    </div>
+</section>

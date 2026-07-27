@@ -1,0 +1,106 @@
+{#
+    Header — the two brand worlds live here.
+    Top strip (brown) → main nav (logo + menu + actions) → world tabs.
+
+    Merchant wiring (dashboard → Theme settings):
+    - chocolate_world_url / coffee_world_url : where each tab points (brand page or category)
+    - show_world_tabs : toggle the tabs row
+    - header_is_sticky
+#}
+{% set choco_url = theme.settings.get('chocolate_world_url') %}
+{% if choco_url.url is defined %}{% set choco_url = choco_url.url %}{% endif %}
+{% set coffee_url = theme.settings.get('coffee_world_url') %}
+{% if coffee_url.url is defined %}{% set coffee_url = coffee_url.url %}{% endif %}
+
+<header class="store-header {{ theme.settings.get('header_is_sticky', true) ? 'is-sticky' : '' }}" id="store-header">
+
+    {# ---- Top strip ---- #}
+    <div class="top-strip">
+        <div class="container">
+            <div class="top-strip__start">
+                {% if store.settings.is_multilingual or store.settings.currencies_enabled %}
+                    <salla-localization-modal show-trigger></salla-localization-modal>
+                {% endif %}
+            </div>
+            <salla-contacts is-header></salla-contacts>
+        </div>
+    </div>
+
+    {# ---- Main nav ---- #}
+    <div class="main-nav">
+        <div class="container">
+            <button class="mobile-toggle" id="mobile-menu-toggle"
+                    aria-label="{{ trans('blocks.header.menu') }}" aria-expanded="false" aria-controls="mobile-menu">
+                <i class="sicon-menu" aria-hidden="true"></i>
+            </button>
+
+            <a class="navbar-brand" href="{{ store.url }}">
+                <img fetchpriority="high" loading="eager"
+                     src="{{ store.logo | cdn(175) }}"
+                     alt="{{ store.name }}">
+                {% if is_page('index') %}
+                    <h1 class="sr-only">{{ store.name }}</h1>
+                {% else %}
+                    <span class="sr-only">{{ store.name }}</span>
+                {% endif %}
+            </a>
+
+            <nav class="nav-menu-wrap" aria-label="{{ trans('blocks.header.main_menu') }}">
+                {% hook 'component:header.menu.start' %}
+                <salla-menu source="header"></salla-menu>
+                {% hook 'component:header.menu.end' %}
+            </nav>
+
+            <div class="header-actions">
+                <button onclick="salla.event.dispatch('search::open')" aria-label="{{ trans('blocks.header.search') }}">
+                    <i class="sicon-search" aria-hidden="true"></i>
+                </button>
+                <salla-user-menu avatar-only show-header show-trigger></salla-user-menu>
+                <salla-cart-summary>
+                    <i slot="icon" class="sicon-shopping-bag" aria-hidden="true"></i>
+                </salla-cart-summary>
+            </div>
+        </div>
+    </div>
+
+    {# ---- The two worlds ---- #}
+    {% if theme.settings.get('show_world_tabs', true) and (choco_url or coffee_url) %}
+        <div class="world-tabs-bar">
+            <div class="container">
+                <nav class="world-tabs" aria-label="{{ trans('wow.worlds.chocolate_tab') }} / {{ trans('wow.worlds.coffee_tab') }}">
+                    {% if choco_url %}
+                        <a class="world-tab world-tab--chocolate" href="{{ choco_url }}" data-world-tab="chocolate">
+                            🍫 {{ trans('wow.worlds.chocolate_tab') }}
+                        </a>
+                    {% endif %}
+                    {% if coffee_url %}
+                        <a class="world-tab world-tab--coffee" href="{{ coffee_url }}" data-world-tab="coffee">
+                            ☕ {{ trans('wow.worlds.coffee_tab') }}
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    {% endif %}
+</header>
+
+{# ---- Mobile drawer ---- #}
+<div class="mobile-menu" id="mobile-menu" hidden>
+    <div class="mobile-menu__backdrop" data-close-menu></div>
+    <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="{{ trans('blocks.header.main_menu') }}">
+        <a class="navbar-brand" href="{{ store.url }}">
+            <img loading="lazy" src="{{ store.logo | cdn(140) }}" alt="{{ store.name }}">
+        </a>
+        {% if theme.settings.get('show_world_tabs', true) %}
+            <div class="world-tabs">
+                {% if choco_url %}
+                    <a class="world-tab world-tab--chocolate" href="{{ choco_url }}">🍫 {{ trans('wow.worlds.chocolate_tab') }}</a>
+                {% endif %}
+                {% if coffee_url %}
+                    <a class="world-tab world-tab--coffee" href="{{ coffee_url }}">☕ {{ trans('wow.worlds.coffee_tab') }}</a>
+                {% endif %}
+            </div>
+        {% endif %}
+        <salla-menu source="header"></salla-menu>
+    </div>
+</div>

@@ -1,0 +1,218 @@
+{#
+| Variable | Type    | Description                                                  |
+|----------|---------|--------------------------------------------------------------|
+| product  | Product | full schema: see Twilight docs / theme-raed reference header |
+
+    PRODUCT PAGE — the product is the hero.
+    Gallery (macro close-ups + reveal video) → craving copy → one clear
+    add-to-cart → pairing cross-sell → photo reviews → sticky mobile bar.
+    World mood follows the product's brand (coffee_brands theme setting).
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    {# ---- Resolve the world from the product's brand ---- #}
+    {% set world = 'chocolate' %}
+    {% if product.brand %}
+        {% set coffee_brands = theme.settings.get('coffee_brands', []) %}
+        {% if coffee_brands %}
+            {% for item in coffee_brands %}
+                {% set item_id = item.value is defined ? item.value : item %}
+                {% if item_id ~ '' == product.brand.id ~ '' %}
+                    {% set world = 'coffee' %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    <div class="world-page" data-world="{{ world }}" id="product-{{ product.id }}">
+        {% if theme.settings.get('product_show_breadcrumbs', true) %}
+            <div class="container">
+                <nav class="breadcrumbs" aria-label="breadcrumb">
+                    <salla-breadcrumb></salla-breadcrumb>
+                </nav>
+            </div>
+        {% endif %}
+
+        <div class="container">
+            <div class="product-hero">
+
+                {# ---- Gallery: zoomable macro + break/filling close-ups + reveal video ---- #}
+                <div class="product-hero__gallery">
+                    <salla-slider id="details-slider-{{ product.id }}"
+                                  class="details-slider"
+                                  type="thumbs"
+                                  loop="false"
+                                  auto-height
+                                  listen-to-thumbnails-option
+                                  show-thumbs-controls="false">
+                        {% if product.promotion_title %}
+                            <div class="badge badge--new" style="position:absolute;top:1rem;inset-inline-start:1rem;z-index:5;">{{ product.promotion_title }}</div>
+                        {% endif %}
+                        <div slot="items">
+                            {% for image in product.images %}
+                                <div class="swiper-slide">
+                                    {% if image.type == 'video' %}
+                                        <video controls muted playsinline preload="metadata" poster="{{ product.image.url }}">
+                                            <source src="{{ image.video_url }}" type="video/mp4">
+                                        </video>
+                                    {% else %}
+                                        <img loading="{{ loop.first ? 'eager' : 'lazy' }}" width="900" height="900"
+                                             src="{{ image.url }}" alt="{{ image.alt ?: product.name }}">
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div slot="thumbs">
+                            {% for image in product.images %}
+                                <div class="swiper-slide">
+                                    <img loading="lazy" width="120" height="120"
+                                         src="{{ image.url | cdn(120) }}" alt="{{ image.alt ?: product.name }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </salla-slider>
+                </div>
+
+                {# ---- Info + buy ---- #}
+                <div class="product-hero__info">
+                    {% if product.brand %}
+                        <a class="product-hero__brandline" href="{{ product.brand.url }}">
+                            {% if product.brand.logo %}<img loading="lazy" src="{{ product.brand.logo }}" alt="{{ product.brand.name }}">{% endif %}
+                            <span>{{ product.brand.name }}</span>
+                        </a>
+                    {% endif %}
+
+                    <h1 class="product-hero__title">{{ product.name }}</h1>
+                    {% if product.subtitle %}<p class="product-hero__subtitle">{{ product.subtitle }}</p>{% endif %}
+
+                    {% if product.rating %}
+                        <salla-rating-stars value="{{ product.rating.stars }}"></salla-rating-stars>
+                    {% endif %}
+
+                    {% hook 'product:single.description.start' %}
+
+                    {# ---- Buy box: one clear action ---- #}
+                    <form class="form product-buy product-form" enctype="multipart/form-data" method="post"
+                          onsubmit="return salla.form.onSubmit('cart.addItem', event)">
+                        <input type="hidden" name="id" value="{{ product.id }}">
+
+                        {% hook 'product:single.form.start' %}
+                        {% include 'pages.partials.product.options' %}
+                        {% hook 'product:single.form.end' %}
+
+                        <div class="product-price">
+                            {% if product.is_on_sale %}
+                                <span class="product-price__current total-price">{{ product.sale_price | money }}</span>
+                                <span class="product-price__old before-price">{{ product.regular_price | money }}</span>
+                                {% if product.discount_percentage %}
+                                    <span class="badge badge--accent product-price__discount">{{ product.discount_percentage }}</span>
+                                {% endif %}
+                            {% else %}
+                                {% if product.starting_price %}
+                                    <span style="color:var(--text-soft);">{{ trans('pages.products.starting_price') }}</span>
+                                {% endif %}
+                                <span class="product-price__current total-price">{{ product.starting_price ? product.starting_price | money : product.price | money }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="out-of-stock" hidden>{{ trans('wow.product.out_of_stock') }}</div>
+
+                        {% if product.is_hidden_quantity or product.type == 'booking' %}
+                            <input type="hidden" value="1" name="quantity" aria-label="{{ trans('wow.product.quantity') }}"/>
+                        {% else %}
+                            <div class="cart-summary__row">
+                                <label class="form-label"><b>{{ trans('wow.product.quantity') }}</b></label>
+                                <salla-quantity-input max="{{ product.max_quantity }}" value="1" name="quantity"
+                                                      aria-label="{{ trans('wow.product.quantity') }}"></salla-quantity-input>
+                            </div>
+                        {% endif %}
+
+                        <salla-add-product-button
+                                {{ product.can_quick_buy ? 'quick-buy' : '' }}
+                                {{ theme.settings.get('sticky_add_to_cart', true) ? 'support-sticky-bar' : '' }}
+                                {{ product.is_require_shipping ? 'required-shipping' : '' }}
+                                amount="{{ product.base_currency_price }}"
+                                product-status="{{ product.status }}"
+                                product-type="{{ product.type }}"
+                                product-id="{{ product.id }}"
+                                loader-position="end"
+                                type="submit"
+                                width="wide"
+                                {% if product.notify_availability %}
+                                    {{ product.notify_availability.subscribed ? 'is-subscribed' : '' }}
+                                    channels="{{ product.notify_availability.channels | join(',') }}"
+                                {% endif %}>
+                            {{ product.add_to_cart_label }}
+                        </salla-add-product-button>
+
+                        {% if product.is_giftable %}
+                            <salla-gifting product-id="{{ product.id }}"
+                                           {{ product.is_require_shipping ? 'physical-products' : '' }}></salla-gifting>
+                        {% endif %}
+                    </form>
+
+                    {# ---- Built-in shareability: لا تكسرها لحالك ---- #}
+                    {% if theme.settings.get('show_share_buttons', true) %}
+                        <div class="product-share">
+                            <b>{{ trans('wow.product.share_title') }}</b>
+                            <span>{{ trans('wow.product.share_hint') }}</span>
+                            <salla-social-share></salla-social-share>
+                            <button type="button" class="btn btn--ghost btn--sm" data-copy-link data-copied-label="{{ trans('wow.product.copied') }}">
+                                <i class="sicon-copy" aria-hidden="true"></i> {{ trans('wow.product.copy_link') }}
+                            </button>
+                        </div>
+                    {% endif %}
+
+                    {# ---- Flavor / roast description ---- #}
+                    {% if product.description %}
+                        <details class="account-card" open>
+                            <summary style="font-weight:700;cursor:pointer;">{{ trans('wow.product.flavor_details') }}</summary>
+                            <div class="product-desc" style="margin-top:0.75rem;">{{ product.description | raw }}</div>
+                        </details>
+                    {% endif %}
+
+                    {% hook 'product:single.description' %}
+                </div>
+            </div>
+        </div>
+
+        {# ---- Cross-brand pairing: chocolate ↔ coffee add-ons ---- #}
+        <section class="section section--tight">
+            <div class="container">
+                <div class="section__head">
+                    <h2 class="section__title">{{ trans('wow.product.pairs_with') }}</h2>
+                </div>
+                <salla-products-slider source="related" source-value="{{ product.id }}"
+                                       block-title="{{ trans('wow.product.pairs_with') }}"></salla-products-slider>
+            </div>
+        </section>
+
+        {# ---- Photo reviews ---- #}
+        {% if store.settings.rating_enabled %}
+            <section class="section section--tight reviews-block">
+                <div class="container">
+                    <div class="section__head">
+                        <h2 class="section__title">{{ trans('wow.product.reviews_title') }}</h2>
+                    </div>
+                    <salla-comments item-id="{{ product.id }}" type="product"></salla-comments>
+                </div>
+            </section>
+        {% endif %}
+    </div>
+
+    {# ---- Sticky mobile buy bar ---- #}
+    {% if theme.settings.get('sticky_add_to_cart', true) %}
+        <div class="sticky-buy-bar" id="sticky-buy-bar" aria-hidden="true">
+            <span class="sticky-buy-bar__price">
+                {{ product.is_on_sale ? product.sale_price | money : product.price | money }}
+            </span>
+            <button class="btn btn--primary" data-scroll-to-buy>
+                {{ product.add_to_cart_label }}
+            </button>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script defer src="{{ 'js/product.js' | asset }}"></script>
+{% endblock %}

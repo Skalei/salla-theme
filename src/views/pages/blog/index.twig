@@ -1,0 +1,57 @@
+{#
+| Variable   | Type           | Description |
+|------------|----------------|-------------|
+| articles   | Article[]      |             |
+| slides     | ?Article[]     | featured    |
+| categories | BlogCategory[] | is_current, name, url |
+
+    Blog — stories behind the flavors, brewing tips, launches.
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="breadcrumb">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+
+        <header class="listing-head">
+            <h1 class="listing-head__title">{{ page.title | raw }}</h1>
+        </header>
+
+        {% if categories | length %}
+            <nav class="blog-cats" aria-label="{{ page.title }}">
+                {% for category in categories %}
+                    <a href="{{ category.url }}" class="{{ category.is_current ? 'is-current' : '' }}">{{ category.name }}</a>
+                {% endfor %}
+            </nav>
+        {% endif %}
+
+        <div class="blog-grid">
+            {% for article in articles %}
+                <article class="article-card">
+                    {% if article.has_image %}
+                        <a href="{{ article.url }}">
+                            <img class="article-card__img" loading="{{ loop.index <= 3 ? 'eager' : 'lazy' }}"
+                                 width="600" height="375"
+                                 src="{{ article.thumbnail ?: article.image.url }}"
+                                 alt="{{ article.image.alt ?: article.title }}">
+                        </a>
+                    {% endif %}
+                    <div class="article-card__body">
+                        {% if article.created_at %}
+                            <time class="article-card__date">{{ article.created_at | date }}</time>
+                        {% endif %}
+                        <h2 style="font-size:var(--fs-h3);"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+                        <a class="section__link" style="align-self:flex-start;" href="{{ article.url }}">{{ trans('wow.blog.read_more') }}</a>
+                    </div>
+                </article>
+            {% else %}
+                <div class="no-content-placeholder" style="grid-column:1/-1;">
+                    <i class="sicon-edit" aria-hidden="true"></i>
+                    <p>{{ trans('wow.account.notifications_empty') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

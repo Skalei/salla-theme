@@ -1,0 +1,33 @@
+{#
+    Hero Product Spotlight — one product under the light
+    (e.g. Angel Hair Cotton Candy Pink & Blue).
+    Fields: products (single), badge, description
+#}
+{# single-select fields may resolve to one product or a one-item list #}
+{% set product = products.id is defined ? products : (products | first) %}
+{% if product %}
+<section class="section section--tight">
+    <div class="container">
+        <div class="spotlight">
+            <a class="spotlight__media" href="{{ product.url }}" aria-label="{{ product.name }}">
+                <img loading="lazy" width="900" height="900"
+                     src="{{ product.image.url | cdn(900) }}"
+                     alt="{{ product.image.alt ?: product.name }}">
+            </a>
+            <div class="spotlight__body">
+                {% if badge %}<span class="badge badge--new">{{ badge }}</span>{% endif %}
+                <h2 class="spotlight__title">{{ product.name }}</h2>
+                {% if description %}<p>{{ description }}</p>{% endif %}
+                <p class="spotlight__price">
+                    {% if product.is_on_sale %}
+                        {{ product.sale_price | money }} <s style="opacity:0.6">{{ product.regular_price | money }}</s>
+                    {% else %}
+                        {{ product.price | money }}
+                    {% endif %}
+                </p>
+                <a class="btn btn--primary" href="{{ product.url }}">{{ trans('wow.home.spotlight_cta') }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

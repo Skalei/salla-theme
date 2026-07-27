@@ -1,0 +1,33 @@
+{#
+    Chocolate × Coffee pairing — the bridge between the two worlds.
+    Fields: image, title, description, products (chocolate + coffee picks), url
+    The section deliberately borrows the coffee world's temperature.
+#}
+<section class="section section--tight" data-world="coffee">
+    <div class="container">
+        <div class="pairing">
+            <div class="pairing__media">
+                <img loading="lazy" width="1200" height="800" src="{{ image }}" alt="{{ title ?: trans('wow.worlds.coffee_tab') }}">
+            </div>
+            <div class="pairing__body">
+                {% if title %}<h2>{{ title }}</h2>{% endif %}
+                {% if description %}<p>{{ description }}</p>{% endif %}
+
+                {% if products | length %}
+                    <div class="pairing__products">
+                        {% for product in products %}
+                            <a class="pairing__mini" href="{{ product.url }}">
+                                <img loading="lazy" src="{{ product.image.url | cdn(120) }}" alt="{{ product.image.alt ?: product.name }}">
+                                <span>{{ product.name }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if url %}
+                    <a class="btn btn--deep" href="{{ url.url is defined ? url.url : url }}">{{ trans('wow.worlds.cross_cta') }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

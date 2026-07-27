@@ -1,0 +1,823 @@
+{
+    "name": {
+        "ar": "واو شوكليت",
+        "en": "WOW Chocolate"
+    },
+    "repository": "",
+    "author_email": "khaled@goods.sa",
+    "support_url": "https://salla.com/",
+    "description": {
+        "ar": "ثيم واو شوكليت — عالمان لبراند واحد: شوكولاتة تخطف الأنظار وقهوة مختصة تهدّي الجو. مبني ليصنع ردة فعل.",
+        "en": "WOW Chocolate theme — two worlds, one brand: show-stopping chocolate and grounded specialty coffee. Built to create a reaction."
+    },
+    "features": [
+        "color",
+        "fonts",
+        "breadcrumb",
+        "filters",
+        "menu-images",
+        "component-photos-slider",
+        "component-fixed-banner",
+        "component-testimonials",
+        "component-youtube",
+        "component-store-features",
+        "component-products-slider"
+    ],
+    "settings": [
+        {
+            "type": "static",
+            "format": "title",
+            "id": "static-worlds-title",
+            "value": "<div class='rounded-lg' style='background-color:#5F3E39;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#E2C044;font-size:15px;font-weight:bold;'>عوالم البراند — WOW Chocolate & The Khey Coffee</h6></div>",
+            "variant": "h6"
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "إظهار تبويبات العالمين في القائمة الرئيسية",
+            "description": "تبويب WOW شوكليت وتبويب The Khey Coffee في الهيدر",
+            "id": "show_world_tabs",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "items",
+            "icon": "sicon-link",
+            "label": "رابط عالم WOW شوكليت (التبويب الأول)",
+            "id": "chocolate_world_url",
+            "value": null,
+            "description": "اختر صفحة الماركة أو التصنيف الخاص بعالم الشوكولاتة",
+            "required": false,
+            "format": "variable-list",
+            "searchable": true,
+            "source": "custom",
+            "sources": [
+                { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                { "label": "تصنيف", "key": "categories", "value": "categories" },
+                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+            ]
+        },
+        {
+            "type": "items",
+            "icon": "sicon-link",
+            "label": "رابط عالم The Khey Coffee (التبويب الثاني)",
+            "id": "coffee_world_url",
+            "value": null,
+            "description": "اختر صفحة الماركة أو التصنيف الخاص بعالم القهوة",
+            "required": false,
+            "format": "variable-list",
+            "searchable": true,
+            "source": "custom",
+            "sources": [
+                { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                { "label": "تصنيف", "key": "categories", "value": "categories" },
+                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+            ]
+        },
+        {
+            "id": "coffee_brands",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "الماركات التابعة لعالم القهوة",
+            "description": "صفحات هذه الماركات ستظهر بمزاج عالم القهوة (بني، بيج، أخضر). ما عداها يظهر بمزاج عالم الشوكولاتة",
+            "icon": "sicon-keyboard_arrow_down",
+            "selected": [],
+            "options": [],
+            "source": "brands",
+            "multichoice": true,
+            "searchable": true,
+            "required": false
+        },
+        {
+            "id": "coffee_categories",
+            "type": "items",
+            "format": "dropdown-list",
+            "label": "التصنيفات التابعة لعالم القهوة",
+            "description": "قوائم المنتجات لهذه التصنيفات ستظهر بمزاج عالم القهوة",
+            "icon": "sicon-keyboard_arrow_down",
+            "selected": [],
+            "options": [],
+            "source": "categories",
+            "multichoice": true,
+            "searchable": true,
+            "required": false
+        },
+        {
+            "type": "static",
+            "id": "static-line-header",
+            "format": "line"
+        },
+        {
+            "type": "static",
+            "format": "title",
+            "id": "static-header-title",
+            "value": "<div class='rounded-lg' style='background-color:#5F3E39;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#EAD0B5;font-size:15px;font-weight:bold;'>خيارات أعلى الصفحة</h6></div>",
+            "variant": "h6"
+        },
+        {
+            "id": "header_is_sticky",
+            "label": "تثبيت القائمة الرئيسية أعلى الصفحة عند التمرير",
+            "description": null,
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "static",
+            "id": "static-line-product",
+            "format": "line"
+        },
+        {
+            "type": "static",
+            "format": "title",
+            "id": "static-product-title",
+            "value": "<div class='rounded-lg' style='background-color:#5F3E39;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#EAD0B5;font-size:15px;font-weight:bold;'>خيارات صفحة المنتج</h6></div>",
+            "variant": "h6"
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "إظهار مسار التنقل في صفحة المنتج",
+            "description": null,
+            "id": "product_show_breadcrumbs",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "إظهار مسار التنقل في صفحة قائمة المنتجات",
+            "description": null,
+            "id": "product_index_show_breadcrumbs",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تثبيت زر الإضافة للسلة أسفل شاشة الجوال",
+            "description": "شريط شراء ثابت يظهر عند التمرير في صفحة المنتج",
+            "id": "sticky_add_to_cart",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "إظهار أزرار المشاركة في صفحة المنتج",
+            "description": "لا تكسرها لحالك — خلّ المنتج ينتشر",
+            "id": "show_share_buttons",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "boolean",
+            "icon": "sicon-toggle-off",
+            "label": "تفعيل إشعار الإضافة للسلة",
+            "description": null,
+            "id": "enable_add_product_toast",
+            "format": "switch",
+            "required": false,
+            "value": true,
+            "selected": true
+        },
+        {
+            "type": "static",
+            "id": "static-line-cart",
+            "format": "line"
+        },
+        {
+            "type": "static",
+            "format": "title",
+            "id": "static-cart-title",
+            "value": "<div class='rounded-lg' style='background-color:#5F3E39;display:flex;justify-content:center;align-items:center;padding:15px;margin-bottom:20px !important;'><h6 style='color:#EAD0B5;font-size:15px;font-weight:bold;'>خيارات السلة والفوتر</h6></div>",
+            "variant": "h6"
+        },
+        {
+            "type": "string",
+            "icon": "sicon-typography",
+            "label": "نص توقعات التوصيل في السلة",
+            "multilanguage": true,
+            "id": "cart_delivery_note",
+            "value": "نغلّفها بعناية ونشحنها مبرّدة — توصلك خلال ٢-٤ أيام عمل",
+            "description": "رسالة قصيرة تطمئن العميل عن التغليف ومدة التوصيل",
+            "format": "textarea",
+            "required": false,
+            "minLength": 0,
+            "maxLength": 255
+        },
+        {
+            "type": "items",
+            "icon": "sicon-link",
+            "label": "رابط صفحة الإهداء",
+            "id": "gift_page_url",
+            "value": null,
+            "description": "الرابط الذي يفتح تجربة الإهداء (تصنيف الهدايا أو صفحة تعريفية)",
+            "required": false,
+            "format": "variable-list",
+            "searchable": true,
+            "source": "custom",
+            "sources": [
+                { "label": "تصنيف", "key": "categories", "value": "categories" },
+                { "label": "صفحة تعريفية", "key": "pages", "value": "pages" },
+                { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+            ]
+        },
+        {
+            "type": "string",
+            "icon": "sicon-format-text-alt",
+            "label": "سطر البراند في الفوتر",
+            "multilanguage": true,
+            "id": "footer_tagline",
+            "value": "إذا قلت واو... وصلنا",
+            "description": null,
+            "format": "text",
+            "required": false,
+            "minLength": 0,
+            "maxLength": 100
+        }
+    ],
+    "components": [
+        {
+            "key": "7f2a9c14-3b8e-4d61-9a05-c2e84f7b1d30",
+            "title": {
+                "en": "WOW Hero — The Reveal",
+                "ar": "هيرو واو — لحظة الكشف"
+            },
+            "icon": "sicon-image-carousel",
+            "path": "home.hero-reveal",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "value": null,
+                    "id": "image",
+                    "label": "صورة الهيرو",
+                    "format": "image",
+                    "required": true,
+                    "placeholder": null,
+                    "description": "* لقطة الكسر/الكشف بمقاس 1600×900 بكسل — خلّ المنتج هو البطل"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-video",
+                    "label": "رابط فيديو الكشف (اختياري)",
+                    "id": "video_url",
+                    "value": null,
+                    "required": false,
+                    "format": "text",
+                    "description": "رابط ملف فيديو mp4 — إذا أُضيف يظهر بدل الصورة ويشتغل تلقائياً بدون صوت",
+                    "placeholder": "https://cdn.example.com/reveal.mp4",
+                    "minLength": 0,
+                    "maxLength": 500
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "إذا قلت واو... وصلنا",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "نص إضافي",
+                    "multilanguage": true,
+                    "id": "subtitle",
+                    "value": "شوكولاتة مبنية تصنع ردة فعل — من أول نظرة لأول لقمة",
+                    "required": false,
+                    "format": "textarea",
+                    "description": null,
+                    "placeholder": "يمكنك إضافة تفاصيل إضافية هنا",
+                    "minLength": 0,
+                    "maxLength": 255
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "نص زر الإجراء",
+                    "multilanguage": true,
+                    "id": "cta_label",
+                    "value": "اكتشف الطعم",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "اكتشف الطعم",
+                    "minLength": 0,
+                    "maxLength": 40
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-link",
+                    "label": "رابط زر الإجراء",
+                    "id": "cta_url",
+                    "value": null,
+                    "description": null,
+                    "required": false,
+                    "format": "variable-list",
+                    "searchable": true,
+                    "source": "custom",
+                    "sources": [
+                        { "label": "منتج", "key": "products", "value": "products" },
+                        { "label": "تصنيف", "key": "categories", "value": "categories" },
+                        { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                        { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "b4e17d82-6c95-4f3a-8e21-09da5c6b7e48",
+            "title": {
+                "en": "Two Worlds Chooser",
+                "ar": "اختر عالمك — شوكولاتة أو قهوة"
+            },
+            "icon": "sicon-layout-grid-rearrange",
+            "path": "home.world-chooser",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "value": null,
+                    "id": "chocolate_image",
+                    "label": "صورة عالم الشوكولاتة",
+                    "format": "image",
+                    "required": true,
+                    "placeholder": null,
+                    "description": "* المقاس المناسب 800×1000 بكسل"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "value": null,
+                    "id": "coffee_image",
+                    "label": "صورة عالم القهوة",
+                    "format": "image",
+                    "required": true,
+                    "placeholder": null,
+                    "description": "* المقاس المناسب 800×1000 بكسل"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "عنوان القسم",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "عالمين... وردّة فعل وحدة",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                }
+            ]
+        },
+        {
+            "key": "c9d05a3f-1e72-4b86-a4c7-53f8e2d91b64",
+            "title": {
+                "en": "Hero Product Spotlight",
+                "ar": "منتج تحت الضوء"
+            },
+            "icon": "sicon-star",
+            "path": "home.product-spotlight",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "label": "المنتج",
+                    "id": "products",
+                    "format": "dropdown-list",
+                    "description": "المنتج البطل — مثل شعر البنات بينك وبلو",
+                    "selected": [],
+                    "options": [],
+                    "required": true,
+                    "multichoice": false,
+                    "source": "products",
+                    "searchable": true
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "شارة صغيرة فوق العنوان",
+                    "multilanguage": true,
+                    "id": "badge",
+                    "value": "النجم الحين",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "النجم الحين",
+                    "minLength": 0,
+                    "maxLength": 30
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "وصف قصير",
+                    "multilanguage": true,
+                    "id": "description",
+                    "value": "في أشياء ما تنشرح... تنجرب",
+                    "required": false,
+                    "format": "textarea",
+                    "description": null,
+                    "placeholder": "وصف يبني الفضول قبل الكشف",
+                    "minLength": 0,
+                    "maxLength": 255
+                }
+            ]
+        },
+        {
+            "key": "e6f83b19-7a04-4c5d-b8e9-124a6d0c3f57",
+            "title": {
+                "en": "Discover Shelf",
+                "ar": "رف الاكتشاف — نكهات ما تتوقعها"
+            },
+            "icon": "sicon-inbox-full",
+            "path": "home.discover-shelf",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "نكهات تسولف عنها",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "label": "المنتجات",
+                    "id": "products",
+                    "format": "dropdown-list",
+                    "description": "نكهات غير متوقعة ونوستالجية",
+                    "selected": [],
+                    "options": [],
+                    "required": true,
+                    "multichoice": true,
+                    "source": "products",
+                    "searchable": true,
+                    "maxLength": 12,
+                    "minLength": 1
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-link",
+                    "label": "رابط عرض الكل",
+                    "id": "display_all_url",
+                    "value": null,
+                    "description": "عند تركه فارغاً يختفي زر (كلها هنا)",
+                    "required": false,
+                    "format": "variable-list",
+                    "searchable": true,
+                    "source": "custom",
+                    "sources": [
+                        { "label": "تصنيف", "key": "categories", "value": "categories" },
+                        { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                        { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "a2c74e58-9b31-4d0f-86a5-e7f19c2d8b03",
+            "title": {
+                "en": "Bundles Strip",
+                "ar": "البوكسات — لا تكسرها لحالك"
+            },
+            "icon": "sicon-packed-box",
+            "path": "home.bundles-strip",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "لا تكسرها لحالك",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "نص توضيحي",
+                    "multilanguage": true,
+                    "id": "description",
+                    "value": "بوكسات مجهزة للجمعة — تكفي الكل وتستحق كل لقمة",
+                    "required": false,
+                    "format": "textarea",
+                    "description": null,
+                    "placeholder": "يمكنك إضافة وصف لهذا القسم هنا...",
+                    "minLength": 0,
+                    "maxLength": 255
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "label": "منتجات البوكسات",
+                    "id": "products",
+                    "format": "dropdown-list",
+                    "description": null,
+                    "selected": [],
+                    "options": [],
+                    "required": true,
+                    "multichoice": true,
+                    "source": "products",
+                    "searchable": true,
+                    "maxLength": 6,
+                    "minLength": 1
+                }
+            ]
+        },
+        {
+            "key": "d8b26f41-0c93-4e7a-95d2-3a6e8f1c7b90",
+            "title": {
+                "en": "Chocolate + Coffee Pairing",
+                "ar": "شوكولاتة × قهوة — الثنائي"
+            },
+            "icon": "sicon-mug-hot",
+            "path": "home.coffee-pairing",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "value": null,
+                    "id": "image",
+                    "label": "صورة الثنائي",
+                    "format": "image",
+                    "required": true,
+                    "placeholder": null,
+                    "description": "* لقطة شوكولاتة مع فنجان — 1200×800 بكسل"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "قطعة منها... مع فنجان منه",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "نص توضيحي",
+                    "multilanguage": true,
+                    "id": "description",
+                    "value": "The Khey Coffee — قهوة مختصة تكمّل الطعم، ما تنافسه",
+                    "required": false,
+                    "format": "textarea",
+                    "description": null,
+                    "placeholder": "يمكنك إضافة وصف لهذا القسم هنا...",
+                    "minLength": 0,
+                    "maxLength": 255
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-keyboard_arrow_down",
+                    "label": "منتجات الثنائي",
+                    "id": "products",
+                    "format": "dropdown-list",
+                    "description": "اختر منتج شوكولاتة ومنتج قهوة (أو أكثر)",
+                    "selected": [],
+                    "options": [],
+                    "required": false,
+                    "multichoice": true,
+                    "source": "products",
+                    "searchable": true,
+                    "maxLength": 4,
+                    "minLength": 0
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-link",
+                    "label": "رابط عالم القهوة",
+                    "id": "url",
+                    "value": null,
+                    "description": null,
+                    "required": false,
+                    "format": "variable-list",
+                    "searchable": true,
+                    "source": "custom",
+                    "sources": [
+                        { "label": "ماركة تجارية", "key": "brands", "value": "brands" },
+                        { "label": "تصنيف", "key": "categories", "value": "categories" },
+                        { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "f1a94c27-5d68-4b03-a7e4-8c2b9d5e0f16",
+            "title": {
+                "en": "Creators Reaction Strip (UGC)",
+                "ar": "ردّات فعلهم — مقاطع المبدعين"
+            },
+            "icon": "sicon-video",
+            "path": "home.ugc-strip",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "قالوا واو قبلك",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                },
+                {
+                    "id": "clips",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 12,
+                    "label": "المقاطع",
+                    "item_label": "مقطع",
+                    "value": [],
+                    "fields": [
+                        {
+                            "type": "string",
+                            "icon": "sicon-image",
+                            "value": null,
+                            "id": "clips.poster",
+                            "label": "الصورة المصغرة (عمودية)",
+                            "format": "image",
+                            "required": true,
+                            "placeholder": null,
+                            "description": "* مقاس عمودي 720×1280 بكسل (مثل الريلز)"
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-video",
+                            "label": "رابط الفيديو (mp4 اختياري)",
+                            "id": "clips.video_url",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "description": "إذا أُضيف يشتغل المقطع داخل الصفحة بدون صوت",
+                            "placeholder": "https://cdn.example.com/clip.mp4",
+                            "minLength": 0,
+                            "maxLength": 500
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-format-text-alt",
+                            "label": "اسم صاحب المقطع",
+                            "id": "clips.creator",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "description": null,
+                            "placeholder": "@username",
+                            "minLength": 0,
+                            "maxLength": 60
+                        },
+                        {
+                            "type": "string",
+                            "icon": "sicon-link",
+                            "label": "رابط المقطع الأصلي",
+                            "id": "clips.link",
+                            "value": null,
+                            "required": false,
+                            "format": "text",
+                            "description": "رابط تيك توك / انستقرام / سناب",
+                            "placeholder": "https://...",
+                            "minLength": 0,
+                            "maxLength": 500
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "3e5b8d70-2f16-4a94-b3c8-6d09e4a7f251",
+            "title": {
+                "en": "Gifting Entry",
+                "ar": "مدخل الإهداء"
+            },
+            "icon": "sicon-gift",
+            "path": "home.gifting-entry",
+            "is_default": true,
+            "fields": [
+                {
+                    "type": "string",
+                    "icon": "sicon-image",
+                    "value": null,
+                    "id": "image",
+                    "label": "صورة القسم",
+                    "format": "image",
+                    "required": true,
+                    "placeholder": null,
+                    "description": "* المقاس المناسب 1200×600 بكسل"
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "العنوان",
+                    "multilanguage": true,
+                    "id": "title",
+                    "value": "هديّة تقول واو قبل ما تنفتح",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "أدخل العنوان هنا...",
+                    "minLength": 0,
+                    "maxLength": 100
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-typography",
+                    "label": "نص توضيحي",
+                    "multilanguage": true,
+                    "id": "description",
+                    "value": "تغليف يستاهل التصوير، وبطاقة برسالتك",
+                    "required": false,
+                    "format": "textarea",
+                    "description": null,
+                    "placeholder": "يمكنك إضافة وصف لهذا القسم هنا...",
+                    "minLength": 0,
+                    "maxLength": 255
+                },
+                {
+                    "type": "string",
+                    "icon": "sicon-format-text-alt",
+                    "label": "نص الزر",
+                    "multilanguage": true,
+                    "id": "cta_label",
+                    "value": "جهّز هديتك",
+                    "required": false,
+                    "format": "text",
+                    "description": null,
+                    "placeholder": "جهّز هديتك",
+                    "minLength": 0,
+                    "maxLength": 40
+                },
+                {
+                    "type": "items",
+                    "icon": "sicon-link",
+                    "label": "رابط الزر",
+                    "id": "url",
+                    "value": null,
+                    "description": null,
+                    "required": false,
+                    "format": "variable-list",
+                    "searchable": true,
+                    "source": "custom",
+                    "sources": [
+                        { "label": "تصنيف", "key": "categories", "value": "categories" },
+                        { "label": "صفحة تعريفية", "key": "pages", "value": "pages" },
+                        { "label": "رابط خارجي", "key": "custom", "value": "custom" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+{#
+| Variable | Type  | Description                                              |
+|----------|-------|----------------------------------------------------------|
+| order    | Order | full schema in Twilight docs / theme-raed reference      |
+#}
+{% extends "layouts.customer" %}
+
+{% block inner_title %}
+    <h1 style="margin-bottom:1.5rem;">
+        {{ trans('wow.account.order_number') }} <span class="latin">#{{ order.reference_id }}</span>
+    </h1>
+{% endblock %}
+
+{% block inner_content %}
+    <div class="account-card">
+        <div class="section__head">
+            <span class="order-status" style="{{ order.status.color ? 'background:' ~ order.status.color ~ ';color:#fff;' : '' }}">
+                <i class="{{ order.status.icon }}" aria-hidden="true"></i> {{ order.status.name }}
+            </span>
+            <time style="color:var(--text-soft);font-size:var(--fs-small);">{{ order.created_at | date }}</time>
+        </div>
+
+        {# ---- Pending payment ---- #}
+        {% if order.is_pending_payment and order.pending_payment_ends_in > 0 %}
+            <div class="delivery-note" style="margin-bottom:1rem;">
+                <i class="sicon-clock" aria-hidden="true"></i>
+                <div style="flex:1;">
+                    <salla-count-down date="{{ order.pending_payment_ends_in }}" labeled></salla-count-down>
+                    <a class="btn btn--primary btn--sm" style="margin-top:0.5rem;" href="{{ order.payment_url }}">
+                        {{ trans('pages.order.pay_now') }}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        {# ---- Items ---- #}
+        {% for item in order.items %}
+            <div class="order-row">
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    {% if item.image %}
+                        <img loading="lazy" src="{{ item.image }}" alt="{{ item.name }}"
+                             style="width:64px;height:64px;border-radius:var(--radius-s);object-fit:cover;">
+                    {% endif %}
+                    <div>
+                        <b>{{ item.name }}</b>
+                        <p style="font-size:var(--fs-small);color:var(--text-soft);">× {{ item.quantity }}</p>
+                        {% if item.note %}<p style="font-size:var(--fs-small);color:var(--text-soft);">{{ item.note }}</p>{% endif %}
+                    </div>
+                </div>
+                <b>{{ item.total | money }}</b>
+            </div>
+        {% endfor %}
+
+        {# ---- Totals ---- #}
+        <div class="cart-summary" style="box-shadow:none;padding-inline:0;">
+            <div class="cart-summary__row">
+                <span>{{ trans('wow.cart.subtotal') }}</span><span>{{ order.sub_total | money }}</span>
+            </div>
+            {% if order.shipping and order.shipping.cost %}
+                <div class="cart-summary__row">
+                    <span>{{ trans('wow.cart.shipping') }} — {{ order.shipping.name }}</span>
+                    <span>{{ order.shipping.cost | money }}</span>
+                </div>
+            {% endif %}
+            {% if order.tax %}
+                <div class="cart-summary__row">
+                    <span>{{ trans('wow.cart.tax') }} ({{ order.tax.percent }}%)</span>
+                    <span>{{ order.tax.amount | money }}</span>
+                </div>
+            {% endif %}
+            <div class="cart-summary__row cart-summary__row--total">
+                <span>{{ trans('wow.cart.total') }}</span><span>{{ order.total | money }}</span>
+            </div>
+        </div>
+
+        {# ---- Shipping / tracking ---- #}
+        {% if order.shipping and order.shipping.number %}
+            <div class="delivery-note">
+                <i class="sicon-shipping-fast {{ theme.is_rtl ? 'flip-in-rtl' : '' }}" aria-hidden="true"></i>
+                <div>
+                    <b>{{ trans('wow.account.track') }}</b>
+                    <p class="latin" dir="ltr">{{ order.shipping.number | raw }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {# ---- Actions ---- #}
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem;">
+            {% if order.can_reorder %}
+                <salla-button onclick="salla.order.createCartFromOrder('{{ order.id }}')">
+                    {{ trans('wow.account.reorder') }}
+                </salla-button>
+            {% endif %}
+            {% if order.can_rate %}
+                <salla-button color="light" onclick="salla.event.dispatch('rating::open', {order_id: {{ order.id }}})">
+                    {{ trans('pages.rating.rate_order') }}
+                </salla-button>
+            {% endif %}
+            {% if order.can_cancel %}
+                <a class="btn btn--ghost btn--sm" href="{{ order.cancel_url }}">{{ trans('pages.order.cancel_order') }}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

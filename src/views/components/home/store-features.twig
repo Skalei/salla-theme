@@ -1,0 +1,17 @@
+{#
+    Twilight predefined: store features (3 quick reassurances).
+    Variables: items[] { icon, title, text }, position
+#}
+<section class="section section--tight store-features">
+    <div class="container">
+        <div class="loyalty-ways" style="margin-bottom:0;">
+            {% for item in items %}
+                <div class="loyalty-way">
+                    <i class="{{ item.icon }}" aria-hidden="true"></i>
+                    <h3>{{ item.title }}</h3>
+                    <p style="color:var(--text-soft);font-size:var(--fs-small);">{{ item.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

@@ -1,0 +1,21 @@
+{#
+    Bundles — "لا تكسرها لحالك". Sharing is the primary occasion.
+    Fields: title, description, products (multi)
+#}
+{% if products | length %}
+<section class="section bundles-strip">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <h2 class="section__title">{{ title ?: trans('wow.home.bundle_badge') }}</h2>
+                {% if description %}<p style="color:var(--text-soft);margin-top:0.25rem;">{{ description }}</p>{% endif %}
+            </div>
+        </div>
+        <div class="cards-grid">
+            {% for product in products %}
+                {% include 'components.product.card' with {product: product} %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

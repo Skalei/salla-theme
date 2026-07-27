@@ -1,0 +1,141 @@
+{#
+| Variable | Type | Description                                        |
+|----------|------|----------------------------------------------------|
+| cart     | Cart | items[], sub_total, total, free_shipping_bar, ...  |
+
+    CART — frictionless and reassuring: clear items, one summary card,
+    delivery expectations up front, add-ons that complete the order.
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="breadcrumb">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+        <h1 class="sr-only">{{ trans('wow.cart.title') }}</h1>
+
+        <salla-conditional-offer></salla-conditional-offer>
+
+        <div class="cart-layout">
+            <div class="cart-items-col">
+                {% hook 'cart:items.start' %}
+
+                {% for item in cart.items %}
+                    <form onchange="salla.form.onChange('cart.updateItem', event)" id="item-{{ item.id }}">
+                        <section class="cart-item">
+                            <input type="hidden" name="id" value="{{ item.id }}">
+                            <a href="{{ item.url }}">
+                                <img class="cart-item__img"
+                                     loading="{{ loop.first ? 'eager' : 'lazy' }}"
+                                     src="{{ item.product_image }}"
+                                     alt="{{ item.product_name }}">
+                            </a>
+                            <div class="cart-item__body">
+                                <h2 class="cart-item__title"><a href="{{ item.url }}">{{ item.product_name }}</a></h2>
+
+                                <p>
+                                    {% if item.offer %}
+                                        <span class="cart-item__price--old">{{ item.product_price | money }}</span>
+                                        <span class="badge badge--accent">{{ item.offer.names }}</span>
+                                    {% endif %}
+                                    <span class="cart-item__price item-price">
+                                        {{ item.offer and item.offer.is_free ? trans('wow.cart.free') : item.price | money }}
+                                    </span>
+                                </p>
+
+                                <div class="cart-item__controls">
+                                    {% if not item.is_hidden_quantity %}
+                                        <salla-quantity-input value="{{ item.quantity }}" name="quantity"
+                                                              aria-label="{{ trans('wow.product.quantity') }}"></salla-quantity-input>
+                                    {% endif %}
+                                    <span class="cart-item__price item-total">{{ item.total | money }}</span>
+                                    <salla-button shape="link" color="danger" class="cart-item__remove"
+                                                  onclick="salla.cart.deleteItem({{ item.id }}).then(() => window.location.reload())">
+                                        <i class="sicon-trash" aria-hidden="true"></i> {{ trans('wow.cart.remove') }}
+                                    </salla-button>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+                {% else %}
+                    <div class="cart-empty">
+                        <i class="sicon-shopping-bag" aria-hidden="true"></i>
+                        <h2>{{ trans('wow.cart.empty_title') }}</h2>
+                        <p style="color:var(--text-soft);">{{ trans('wow.cart.empty_hint') }}</p>
+                        <a href="{{ link('/') }}" class="btn btn--primary">{{ trans('wow.cart.empty_cta') }}</a>
+                    </div>
+                {% endfor %}
+
+                <salla-offer></salla-offer>
+                {% hook 'cart:items.end' %}
+
+                {# ---- Add-ons: they complete your order ---- #}
+                {% if cart.items | length %}
+                    <section class="section section--tight">
+                        <div class="section__head">
+                            <h2 class="section__title">{{ trans('wow.cart.addons_title') }}</h2>
+                        </div>
+                        <salla-products-slider source="related" source-value="{{ (cart.items | first).product_id }}"
+                                               block-title="{{ trans('wow.cart.addons_title') }}"></salla-products-slider>
+                    </section>
+                {% endif %}
+            </div>
+
+            {% hook 'cart:summary.start' %}
+            {% if cart.items | length %}
+                <div class="cart-summary-col">
+
+                    {# ---- Delivery expectations, up front ---- #}
+                    {% if theme.settings.get('cart_delivery_note') %}
+                        <div class="delivery-note" style="margin-bottom:1rem;">
+                            <i class="sicon-shipping-fast {{ theme.is_rtl ? 'flip-in-rtl' : '' }}" aria-hidden="true"></i>
+                            <div>
+                                <b>{{ trans('wow.cart.delivery_title') }}</b>
+                                <p>{{ theme.settings.get('cart_delivery_note') }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {# ---- Free shipping progress ---- #}
+                    {% if cart.free_shipping_bar %}
+                        <div class="account-card" id="free-shipping">
+                            {% set is_free = cart.free_shipping_bar.has_free_shipping %}
+                            <b>{{ trans('pages.cart.free_shipping') }}</b>
+                            <p style="font-size:var(--fs-small);color:var(--text-soft);" id="free-shipping-msg">
+                                {{ (is_free
+                                    ? trans('pages.cart.has_free_shipping')
+                                    : trans('pages.cart.free_shipping_alert', {'amount': cart.free_shipping_bar.remaining | money})) | raw }}
+                            </p>
+                            <div style="margin-top:0.75rem;background:var(--bg-soft);border-radius:var(--radius-pill);height:10px;overflow:hidden;" id="free-shipping-bar">
+                                <div style="height:100%;border-radius:var(--radius-pill);background:var(--world-accent);width:{{ cart.free_shipping_bar.percent }}%;"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if loyalty %}
+                        <salla-loyalty-panel prize-points='{{ loyalty.prize.points }}'
+                                             prize-title='{{ loyalty.prize.title }}'></salla-loyalty-panel>
+                    {% endif %}
+
+                    {% if store.settings.cart.apply_coupon_enabled %}
+                        {% hook 'cart:coupon.start' %}
+                        <salla-cart-coupons></salla-cart-coupons>
+                        {% hook 'cart:coupon.end' %}
+                    {% endif %}
+
+                    {% hook 'cart:summary-card.start' %}
+                    <salla-cart-summary-card></salla-cart-summary-card>
+                    {% hook 'cart:summary-card.end' %}
+
+                    <salla-tiered-offer></salla-tiered-offer>
+                </div>
+            {% endif %}
+            {% hook 'cart:summary.end' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script defer src="{{ 'js/app.js' | asset }}"></script>
+{% endblock %}

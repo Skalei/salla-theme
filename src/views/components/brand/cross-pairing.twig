@@ -1,0 +1,26 @@
+{#
+    Cross-world pairing — pushes the visitor toward the sibling world.
+    On a coffee page it sells the chocolate moment, and vice versa.
+    Usage:
+      {% include 'components.brand.cross-pairing' with {world: world} %}
+#}
+{% set choco_url = theme.settings.get('chocolate_world_url') %}
+{% if choco_url.url is defined %}{% set choco_url = choco_url.url %}{% endif %}
+{% set coffee_url = theme.settings.get('coffee_world_url') %}
+{% if coffee_url.url is defined %}{% set coffee_url = coffee_url.url %}{% endif %}
+
+{% set target_url = world == 'coffee' ? choco_url : coffee_url %}
+
+{% if target_url %}
+<section class="section section--tight">
+    <div class="container">
+        <div class="world-cross">
+            <div>
+                <h2>{{ world == 'coffee' ? trans('wow.worlds.chocolate_cross_title') : trans('wow.worlds.coffee_cross_title') }}</h2>
+                <p>{{ trans('wow.worlds.chocolate_cross_text') }}</p>
+            </div>
+            <a class="btn btn--primary" href="{{ target_url }}">{{ trans('wow.worlds.cross_cta') }}</a>
+        </div>
+    </div>
+</section>
+{% endif %}

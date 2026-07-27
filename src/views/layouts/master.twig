@@ -1,0 +1,85 @@
+{#
+    WOW Chocolate — master layout
+    "There will be chocolate, and there will be WOW."
+
+    Shared foundation for every page:
+    - Injects the design tokens (dashboard color/font override the defaults in 01-tokens.css)
+    - RTL/LTR from theme.is_rtl — the whole theme is Arabic-first, RTL-native
+    - Twilight hooks: head:start / head / head:end / body:classes / body:start / body:end
+    - Pages set {% block body_world %} to switch the brand-world mood (chocolate | coffee)
+#}
+<!DOCTYPE html>
+<html lang="{{ language.code }}" dir="{{ theme.is_rtl ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ theme.settings.set('placeholder', 'images/placeholder.png') }}
+
+    {% block head_scripts %}{% endblock %}
+
+    <script data-cfasync="false">
+        window.header_is_sticky = {{ theme.settings.get('header_is_sticky', true) ? 'true' : 'false' }};
+        window.sticky_add_to_cart = {{ theme.settings.get('sticky_add_to_cart', true) ? 'true' : 'false' }};
+    </script>
+
+    {% hook 'head:start' %}
+    {% hook head %}
+    {% block styles %}{% endblock %}
+
+    {# Montserrat — secondary Latin type #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+
+    <link rel="stylesheet" href="{{ 'styles/app.css' | asset }}">
+    {% if theme.font %}
+        <link rel="stylesheet" href="{{ theme.font.path | cdn }}"/>
+    {% endif %}
+    <link rel="stylesheet" href="{{ 'fonts/sallaicons.css' | cdn }}"/>
+
+    <style>
+        :root {
+            {# Dashboard font drives body text; the WOW identity type stays on headings (see 01-tokens.css) #}
+            {% if theme.font %}--font-main: '{{ theme.font.name }}', 'Kohinoor Arabic', 'Montserrat', system-ui, sans-serif;{% endif %}
+            --color-primary: {{ theme.color.primary }};
+            --color-primary-dark: {{ theme.color.darker(0.15) }};
+            --color-primary-light: {{ theme.color.lighter(0.15) }};
+            --color-primary-reverse: {{ theme.color.reverse_text }};
+        }
+    </style>
+    {% hook 'head:end' %}
+</head>
+<body id="app"
+      class="theme-wow {% hook 'body:classes' %}"
+      data-world="{% block body_world %}chocolate{% endblock %}">
+<noscript>
+    To get full functionality of this site you need to enable JavaScript.
+    <a href="https://www.enable-javascript.com/" rel="noreferrer" target="_blank">How to enable JavaScript</a>.
+</noscript>
+
+<div class="app-inner">
+    {% hook 'body:start' %}
+    {% component 'header.header' %}
+    <main id="main-content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+    {% component 'footer.footer' %}
+</div>
+{% hook 'body:end' %}
+
+{% if theme.settings.get('enable_add_product_toast', true) %}
+    <salla-add-product-toast></salla-add-product-toast>
+{% endif %}
+
+{# Twilight web components — search, login, offers, localization #}
+<salla-offer-modal></salla-offer-modal>
+<salla-search></salla-search>
+<salla-login-modal></salla-login-modal>
+{% if store.scope %}
+    <salla-scopes selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>
+{% endif %}
+
+<script defer src="{{ 'js/app.js' | asset }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

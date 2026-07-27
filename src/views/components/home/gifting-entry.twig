@@ -1,0 +1,23 @@
+{#
+    Gifting entry point.
+    Fields: image, title, description, cta_label, url
+    Falls back to the global gift_page_url theme setting.
+#}
+{% set gift_url = url ?: theme.settings.get('gift_page_url') %}
+{% if gift_url.url is defined %}{% set gift_url = gift_url.url %}{% endif %}
+
+<section class="section section--tight gifting-entry">
+    <div class="container">
+        <div class="gifting">
+            <img class="gifting__bg" loading="lazy" width="1200" height="600" src="{{ image }}" alt="">
+            <div class="gifting__scrim" aria-hidden="true"></div>
+            <div class="gifting__body">
+                {% if title %}<h2>{{ title }}</h2>{% endif %}
+                {% if description %}<p>{{ description }}</p>{% endif %}
+                {% if gift_url %}
+                    <a class="btn btn--primary" href="{{ gift_url }}">{{ cta_label ?: trans('wow.home.discover_all') }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

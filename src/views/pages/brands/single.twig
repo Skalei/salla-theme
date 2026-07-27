@@ -1,0 +1,69 @@
+{#
+| Variable          | Type    | Description                                               |
+|-------------------|---------|-----------------------------------------------------------|
+| brand             | Brand   | id, name, url, logo, banner(?), description               |
+| products          | ?[]     | brand products (rendered via salla-products-list)         |
+
+    THE BRAND-WORLD TEMPLATE.
+    Each sub-brand (WOW Chocolate / The Khey Coffee / future brands) is a
+    Salla "Brand"; this page renders it as a full world. Which world-mood a
+    brand gets is decided by the merchant (dashboard → theme settings →
+    "الماركات التابعة لعالم القهوة"); anything unmapped defaults to the
+    chocolate mood, with a name-based fallback for coffee.
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    {# ---- Resolve the world ---- #}
+    {% set world = 'chocolate' %}
+    {% set coffee_brands = theme.settings.get('coffee_brands', []) %}
+    {% if coffee_brands %}
+        {% for item in coffee_brands %}
+            {% set item_id = item.value is defined ? item.value : item %}
+            {% if item_id == brand.id or item_id ~ '' == brand.id ~ '' %}
+                {% set world = 'coffee' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if world == 'chocolate' and (brand.name | lower matches '/(khey|coffee|قهوة)/u') %}
+        {% set world = 'coffee' %}
+    {% endif %}
+
+    <div class="world-page" data-world="{{ world }}">
+
+        {% include 'components.brand.world-hero' with {world: world, brand: brand} %}
+
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="breadcrumb">
+                <salla-breadcrumb></salla-breadcrumb>
+            </nav>
+        </div>
+
+        {% hook 'brands:single.details.start' %}
+
+        {# ---- The shelf ---- #}
+        {% if products | length %}
+            {% include 'components.brand.world-shelf' with {
+                world: world,
+                source: page.slug,
+                source_value: page.id
+            } %}
+        {% else %}
+            <div class="container">
+                <div class="no-content-placeholder">
+                    <i class="sicon-award-ribbon" aria-hidden="true"></i>
+                    <p>{{ trans('pages.brands.non_products') }} {{ brand.name }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% hook 'brands:single.details.end' %}
+
+        {# ---- The bridge to the sibling world ---- #}
+        {% include 'components.brand.cross-pairing' with {world: world} %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script defer src="{{ 'js/brand-world.js' | asset }}"></script>
+{% endblock %}

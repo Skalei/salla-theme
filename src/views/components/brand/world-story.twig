@@ -1,0 +1,26 @@
+{#
+    Brand-world story block — editorial image + text pair.
+    Coffee world: ritual storytelling (roast/origin/brewing).
+    Usage:
+      {% include 'components.brand.world-story' with {world: world, image: '...', title: '...', text: '...'} %}
+#}
+{% if title or text %}
+<section class="section">
+    <div class="container">
+        <div class="world-story">
+            {% if image %}
+                <div class="world-story__media">
+                    <img loading="lazy" width="800" height="600" src="{{ image }}" alt="{{ title ?: '' }}">
+                </div>
+            {% endif %}
+            <div>
+                <p class="world-story__eyebrow">
+                    {{ world == 'coffee' ? trans('wow.worlds.story_eyebrow_coffee') : trans('wow.worlds.story_eyebrow_chocolate') }}
+                </p>
+                {% if title %}<h2>{{ title }}</h2>{% endif %}
+                {% if text %}<div style="margin-top:0.75rem;">{{ text | raw }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

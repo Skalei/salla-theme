@@ -1,0 +1,35 @@
+{#
+| Variable      | Type                      | Description |
+|---------------|---------------------------|-------------|
+| notifications | Notification[] *Paginator | is_new, url, title, sub_title, date |
+#}
+{% extends "layouts.customer" %}
+
+{% block inner_title %}
+    <h1 style="margin-bottom:1.5rem;">{{ trans('wow.account.notifications') }}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    {% hook 'customer:notifications.items.start' %}
+
+    {% for notification in notifications %}
+        <a class="notification-row {{ notification.is_new ? 'is-new' : '' }}" href="{{ notification.url }}">
+            <b>{{ notification.title }}</b>
+            {% if notification.sub_title %}
+                <p style="color:var(--text-soft);font-size:var(--fs-small);">{{ notification.sub_title }}</p>
+            {% endif %}
+            <time style="color:var(--text-soft);font-size:var(--fs-small);">{{ notification.date }}</time>
+        </a>
+    {% else %}
+        <div class="no-content-placeholder">
+            <i class="sicon-bell" aria-hidden="true"></i>
+            <p>{{ trans('wow.account.notifications_empty') }}</p>
+        </div>
+    {% endfor %}
+
+    {% if notifications.next_page %}
+        <a class="btn btn--ghost" href="{{ notifications.next_page }}">{{ trans('common.elements.load_more') }}</a>
+    {% endif %}
+
+    {% hook 'customer:notifications.items.end' %}
+{% endblock %}

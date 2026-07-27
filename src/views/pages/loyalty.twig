@@ -1,0 +1,85 @@
+{#
+| Variable | Type    | Description                                      |
+|----------|---------|--------------------------------------------------|
+| loyalty  | Loyalty | name, description, image, points[], prizes[]     |
+| user     |         | user.loyalty_points, user.is_profile_completed   |
+
+    LOYALTY — turn the WOW into a habit: points feel effortless,
+    prizes feel like reveals.
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="breadcrumb">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+
+        <header class="loyalty-hero">
+            {% if loyalty.image %}
+                <img loading="eager" src="{{ loyalty.image }}" alt="{{ loyalty.name }}"
+                     style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-m);background:#fff;padding:0.5rem;">
+            {% endif %}
+            <div style="flex:1;">
+                <h1>{{ loyalty.name }}</h1>
+                {% if loyalty.description %}<p>{{ loyalty.description | raw }}</p>{% endif %}
+            </div>
+            {% if user.loyalty_points is not null %}
+                <div class="loyalty-points-pill">
+                    {{ trans('wow.loyalty.your_points') }}: {{ user.loyalty_points }}
+                </div>
+            {% else %}
+                <button class="btn btn--primary" onclick="salla.event.dispatch('login::open')">
+                    {{ trans('wow.loyalty.join_hint') }}
+                </button>
+            {% endif %}
+        </header>
+
+        {# ---- Ways to earn ---- #}
+        {% if loyalty.points | length %}
+            <h2 style="margin-bottom:1rem;">{{ trans('wow.loyalty.ways_title') }}</h2>
+            <div class="loyalty-ways">
+                {% for point in loyalty.points %}
+                    <div class="loyalty-way">
+                        <i class="{{ point.icon }}" aria-hidden="true" style="color:{{ point.color ?: 'var(--world-accent)' }};"></i>
+                        <h3>{{ point.name }}</h3>
+                        <p style="font-size:var(--fs-small);color:var(--text-soft);">{{ point.description }}</p>
+                        <b>+{{ point.points }}</b>
+                        {% if point.url %}<a class="section__link" href="{{ point.url }}">{{ trans('wow.home.discover_all') }}</a>{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {# ---- Prizes ---- #}
+        {% for group in loyalty.prizes %}
+            <section class="section section--tight">
+                <div class="section__head">
+                    <h2 class="section__title">{{ group.title ?: trans('wow.loyalty.prizes_title') }}</h2>
+                </div>
+                <div class="cards-grid">
+                    {% for prize in group.items %}
+                        <div class="prize-card">
+                            {% if prize.image %}
+                                <img loading="lazy" src="{{ prize.image }}" alt="{{ prize.name }}">
+                            {% endif %}
+                            <div class="prize-card__body">
+                                <h3>{{ prize.name }}</h3>
+                                {% if prize.description %}
+                                    <p style="font-size:var(--fs-small);color:var(--text-soft);">{{ prize.description }}</p>
+                                {% endif %}
+                                <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:0.5rem;">
+                                    <span class="badge badge--accent">{{ prize.cost_points }} ⭐</span>
+                                    <salla-button size="small"
+                                                  onclick="salla.loyalty.exchange({{ prize.id }})">
+                                        {{ trans('pages.loyalty_program.exchange_points') }}
+                                    </salla-button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endfor %}
+    </div>
+{% endblock %}

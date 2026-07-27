@@ -1,0 +1,10 @@
+{#
+    Comments block — reusable wrapper around the Twilight web component.
+    Used on pages that accept comments (blog articles, single pages).
+    Variables: item_id, type ('page' | 'product' | 'article')
+#}
+<section class="section section--tight comments-block">
+    <div class="container">
+        <salla-comments item-id="{{ item_id ?: page.id }}" type="{{ type ?: 'page' }}"></salla-comments>
+    </div>
+</section>

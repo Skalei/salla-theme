@@ -1,0 +1,15 @@
+{#
+    Brand-world shelf — the sub-brand's products.
+    Usage:
+      {% include 'components.brand.world-shelf' with {world: world, title: '...', source: page.slug, source_value: page.id} %}
+#}
+<section class="section world-shelf">
+    <div class="container">
+        <div class="section__head">
+            <h2 class="section__title">{{ title ?: trans('wow.worlds.shelf_title') }}</h2>
+        </div>
+        {% hook 'brands:single.items.start' %}
+        <salla-products-list source="{{ source }}" source-value="{{ source_value }}"></salla-products-list>
+        {% hook 'brands:single.items.end' %}
+    </div>
+</section>

@@ -1,0 +1,40 @@
+{#
+    Two Worlds Chooser — the visitor picks their world.
+    Fields: chocolate_image, coffee_image, title
+    Links come from the same theme settings that power the header tabs,
+    so the worlds always point to one place.
+#}
+{% set choco_url = theme.settings.get('chocolate_world_url') %}
+{% if choco_url.url is defined %}{% set choco_url = choco_url.url %}{% endif %}
+{% set coffee_url = theme.settings.get('coffee_world_url') %}
+{% if coffee_url.url is defined %}{% set coffee_url = coffee_url.url %}{% endif %}
+
+<section class="section world-chooser">
+    <div class="container">
+        {% if title %}
+            <div class="section__head">
+                <h2 class="section__title">{{ title }}</h2>
+            </div>
+        {% endif %}
+
+        <div class="world-chooser__grid">
+            <a class="world-card world-card--chocolate" href="{{ choco_url ?: '#' }}" data-world="chocolate">
+                <img loading="lazy" width="800" height="1000" src="{{ chocolate_image }}" alt="{{ trans('wow.worlds.chocolate_tab') }}">
+                <div class="world-card__overlay">
+                    <span class="world-card__kicker">{{ trans('wow.worlds.chocolate_kicker') }}</span>
+                    <h3 class="world-card__title">{{ trans('wow.worlds.chocolate_title') }}</h3>
+                    <span class="btn btn--primary btn--sm">{{ trans('wow.worlds.enter_world') }}</span>
+                </div>
+            </a>
+
+            <a class="world-card world-card--coffee" href="{{ coffee_url ?: '#' }}" data-world="coffee">
+                <img loading="lazy" width="800" height="1000" src="{{ coffee_image }}" alt="{{ trans('wow.worlds.coffee_tab') }}">
+                <div class="world-card__overlay">
+                    <span class="world-card__kicker">{{ trans('wow.worlds.coffee_kicker') }}</span>
+                    <h3 class="world-card__title">{{ trans('wow.worlds.coffee_title') }}</h3>
+                    <span class="btn btn--ghost btn--sm" style="border-color:#fff;color:#fff;">{{ trans('wow.worlds.enter_world') }}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>

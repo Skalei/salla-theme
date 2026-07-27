@@ -1,0 +1,19 @@
+{#
+    Twilight predefined: fixed banner.
+    Variables: url, image.url, image.alt, image.small_url, position
+#}
+<section class="section section--tight fixed-banner">
+    <div class="container">
+        <a href="{{ url }}">
+            <picture>
+                {% if image.small_url %}
+                    <source media="(max-width: 640px)" srcset="{{ image.small_url }}">
+                {% endif %}
+                <img loading="lazy" width="1200" height="450"
+                     src="{{ image.url }}"
+                     style="width:100%;object-fit:cover;border-radius:var(--radius-l);"
+                     alt="{{ image.alt ?: store.name }}">
+            </picture>
+        </a>
+    </div>
+</section>

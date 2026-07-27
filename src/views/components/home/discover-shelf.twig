@@ -1,0 +1,21 @@
+{#
+    Discover Shelf — unexpected & nostalgic flavors.
+    Fields: title, products (multi), display_all_url
+#}
+{% if products | length %}
+<section class="section discover-shelf">
+    <div class="container">
+        <div class="section__head">
+            <h2 class="section__title">{{ title ?: trans('wow.home.discover_all') }}</h2>
+            {% if display_all_url %}
+                <a class="section__link" href="{{ display_all_url.url is defined ? display_all_url.url : display_all_url }}">{{ trans('wow.home.discover_all') }}</a>
+            {% endif %}
+        </div>
+        <div class="cards-grid">
+            {% for product in products %}
+                {% include 'components.product.card' with {product: product} %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

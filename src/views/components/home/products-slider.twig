@@ -1,0 +1,20 @@
+{#
+    Twilight predefined: products slider.
+    Variables: products.source, products.source_value, title, display_all_url, limit, position
+#}
+<section class="section products-slider-block">
+    <div class="container">
+        <div class="section__head">
+            <h2 class="section__title">{{ title }}</h2>
+            {% if display_all_url %}
+                <a class="section__link" href="{{ display_all_url }}">{{ trans('wow.home.discover_all') }}</a>
+            {% endif %}
+        </div>
+        <salla-products-slider
+                source="{{ products.source }}"
+                source-value="{{ products.source_value | json_encode }}"
+                limit="{{ limit ?: 8 }}"
+                block-title="{{ title }}"
+                display-all-url="{{ display_all_url }}"></salla-products-slider>
+    </div>
+</section>

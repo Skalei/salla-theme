@@ -1,0 +1,77 @@
+{#
+| Variable            | Type   | Description                            |
+|---------------------|--------|----------------------------------------|
+| order               | Order  | @see pages/customer/orders/single.twig |
+| thank_you           | string |                                        |
+| share_message       | string |                                        |
+| short_share_message | string |                                        |
+
+    THANK YOU — the anticipation starts here: celebrate, set the
+    unboxing expectation, and make sharing effortless.
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        {% hook 'thank-you:start' %}
+
+        <div class="thank-you">
+            <div class="thank-you__mark" aria-hidden="true">
+                <i class="sicon-check"></i>
+            </div>
+            <h1 class="thank-you__title">{{ thank_you ?: trans('wow.thankyou.title') }}</h1>
+            <p style="color:var(--text-soft);">{{ trans('wow.thankyou.subtitle') }}</p>
+
+            {# ---- Shareability built in ---- #}
+            {% if share_message %}
+                <div class="thank-you__share">
+                    <b>{{ trans('wow.thankyou.share') }}</b>
+                    <salla-social-share share-text="{{ short_share_message ?: share_message }}"></salla-social-share>
+                </div>
+            {% endif %}
+
+            {# ---- Order recap ---- #}
+            {% if order %}
+                <section class="thank-you__order">
+                    <div class="section__head">
+                        <h2 class="section__title">{{ trans('wow.thankyou.order_details') }}</h2>
+                        <span class="order-status" style="background:{{ order.status.color ?: 'var(--bg-soft)' }};color:#fff;">
+                            {{ order.status.name }}
+                        </span>
+                    </div>
+                    <p style="color:var(--text-soft);font-size:var(--fs-small);">
+                        {{ trans('wow.account.order_number') }} <b class="latin">#{{ order.reference_id }}</b>
+                        · {{ order.created_at | date }}
+                    </p>
+
+                    {% hook 'thank-you:items.start' %}
+                    {% for item in order.items %}
+                        <div class="order-row">
+                            <div style="display:flex;align-items:center;gap:0.75rem;">
+                                {% if item.image %}
+                                    <img loading="lazy" src="{{ item.image }}" alt="{{ item.name }}"
+                                         style="width:56px;height:56px;border-radius:var(--radius-s);object-fit:cover;">
+                                {% endif %}
+                                <div>
+                                    <b>{{ item.name }}</b>
+                                    <p style="font-size:var(--fs-small);color:var(--text-soft);">× {{ item.quantity }}</p>
+                                </div>
+                            </div>
+                            <span>{{ item.total | money }}</span>
+                        </div>
+                    {% endfor %}
+                    {% hook 'thank-you:items.end' %}
+
+                    <div class="cart-summary__row cart-summary__row--total">
+                        <span>{{ trans('wow.cart.total') }}</span>
+                        <span>{{ order.total | money }}</span>
+                    </div>
+                </section>
+            {% endif %}
+
+            <a href="{{ link('/') }}" class="btn btn--deep">{{ trans('wow.thankyou.keep_shopping') }}</a>
+        </div>
+
+        {% hook 'thank-you:end' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{#
+    Home — the shared front door of both worlds.
+    Sections are arranged by the merchant from Store Design; the theme
+    ships these components (twilight.json → components):
+      hero-reveal · world-chooser · product-spotlight · discover-shelf
+      bundles-strip · coffee-pairing · ugc-strip · gifting-entry
+    plus Twilight's predefined components (photos slider, fixed banner,
+    testimonials, youtube, store features, products slider).
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    {% component home %}
+{% endblock %}
+
+{% block scripts %}
+    <script defer src="{{ 'js/home.js' | asset }}"></script>
+{% endblock %}

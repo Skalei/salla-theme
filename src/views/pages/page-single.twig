@@ -1,0 +1,21 @@
+{#
+| Variable     | Type | Description                      |
+|--------------|------|----------------------------------|
+| page         | Page | title, content, url, slug, type  |
+
+    Generic single page (about, policies, gifting info...).
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="breadcrumb">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+
+        <article class="page-content">
+            <h1 style="margin-bottom:1.5rem;">{{ page.title | raw }}</h1>
+            {{ page.content | raw }}
+        </article>
+    </div>
+{% endblock %}

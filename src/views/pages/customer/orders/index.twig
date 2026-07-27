@@ -1,0 +1,38 @@
+{#
+| Variable | Type                 | Description |
+|----------|----------------------|-------------|
+| orders[] | Orders[] *Collection |             |
+#}
+{% extends "layouts.customer" %}
+
+{% block inner_title %}
+    <h1 style="margin-bottom:1.5rem;">{{ trans('wow.account.orders') }}</h1>
+{% endblock %}
+
+{% block inner_content %}
+    {% hook 'customer:orders.index.items.start' %}
+
+    <div class="account-card">
+        {% for order in orders %}
+            <div class="order-row">
+                <div>
+                    <b>{{ trans('wow.account.order_number') }} <span class="latin">#{{ order.reference_id }}</span></b>
+                    <p style="color:var(--text-soft);font-size:var(--fs-small);">{{ order.created_at | date }}</p>
+                </div>
+                <span class="order-status" style="{{ order.status.color ? 'background:' ~ order.status.color ~ ';color:#fff;' : '' }}">
+                    {{ order.status.name }}
+                </span>
+                <b>{{ order.total | money }}</b>
+                <a class="btn btn--ghost btn--sm" href="{{ order.url }}">{{ trans('wow.thankyou.order_details') }}</a>
+            </div>
+        {% else %}
+            <div class="no-content-placeholder">
+                <i class="sicon-packed-box" aria-hidden="true"></i>
+                <p>{{ trans('wow.account.orders_empty') }}</p>
+                <a class="btn btn--primary" href="{{ link('/') }}">{{ trans('wow.cart.empty_cta') }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% hook 'customer:orders.index.items.end' %}
+{% endblock %}

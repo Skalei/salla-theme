@@ -1,0 +1,30 @@
+{#
+    Brand-world hero — reusable for any sub-brand.
+    Usage:
+      {% include 'components.brand.world-hero' with {world: world, brand: brand} %}
+    world: 'chocolate' | 'coffee' (drives the token set via the parent [data-world])
+#}
+<section class="world-hero">
+    {% if brand.banner %}
+        <div class="world-hero__media">
+            <img fetchpriority="high" loading="eager" width="1600" height="700"
+                 src="{{ brand.banner }}" alt="{{ brand.name }}">
+        </div>
+    {% endif %}
+    <div class="world-hero__scrim" aria-hidden="true"></div>
+
+    <div class="container">
+        <div class="world-hero__content">
+            {% if brand.logo %}
+                <img class="world-hero__logo" loading="eager" src="{{ brand.logo }}" alt="{{ brand.name }}">
+            {% endif %}
+            <span class="world-card__kicker">
+                {{ world == 'coffee' ? trans('wow.worlds.coffee_kicker') : trans('wow.worlds.chocolate_kicker') }}
+            </span>
+            <h1 class="world-hero__title">{{ brand.name }}</h1>
+            {% if brand.description %}
+                <div class="world-hero__desc">{{ brand.description | raw }}</div>
+            {% endif %}
+        </div>
+    </div>
+</section>
