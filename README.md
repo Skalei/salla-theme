@@ -42,12 +42,14 @@ wow-chocolate-theme/
 
 ```bash
 npm i -g @salla.sa/cli     # once
-salla login                # Partner account
-salla theme preview        # live preview against a demo store
-salla theme push           # ⚠️ publishes to your Partner Portal — run only when you decide to
+salla login                # Partner account (opens the browser)
+salla theme preview        # uploads the theme and previews it on a demo store
+salla theme list           # themes linked to your Partner account
+salla theme publish        # ⚠️ submits to the Salla Themes Marketplace — your explicit call only
 ```
 
-> This scaffold never runs publish commands for you. `salla theme push` / publishing is always your explicit call.
+> There is no `push` command in Salla CLI v3+. `preview` is the upload-and-test flow;
+> `publish` is the marketplace submission and always remains your explicit decision.
 
 ## 3. The two brand worlds — how they work
 
