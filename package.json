@@ -4,6 +4,8 @@
   "private": true,
   "description": "WOW Chocolate — Salla Twilight theme. Two brand worlds: WOW Chocolate & The Khey Coffee. Arabic-first, RTL-native.",
   "scripts": {
-    "preview": "salla theme preview"
+    "preview": "salla theme preview",
+    "development": "node -e \"require('fs').cpSync('src/assets','public',{recursive:true})\"",
+    "production": "node -e \"require('fs').cpSync('src/assets','public',{recursive:true})\""
   }
 }
