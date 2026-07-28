@@ -37,7 +37,7 @@
   color: var(--text-soft);
 }
 .product-hero__brandline img { height: 26px; width: auto; }
-.product-hero__title { font-size: var(--fs-h1); }
+.product-hero__title { font-size: var(--fs-page-title); }
 .product-hero__subtitle { color: var(--text-soft); }
 .product-price { display: flex; align-items: baseline; gap: 0.75rem; }
 .product-price__current { font-size: var(--fs-h2); font-weight: 700; color: var(--world-deep); }
@@ -91,7 +91,7 @@
    PRODUCT LISTING
    ============================================================ */
 .listing-head { margin-bottom: var(--space-3); }
-.listing-head__title { font-size: var(--fs-h1); }
+.listing-head__title { font-size: var(--fs-page-title); }
 .listing-head__count { color: var(--text-soft); font-size: var(--fs-small); }
 .listing-toolbar {
   display: flex;
