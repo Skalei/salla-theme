@@ -11,7 +11,7 @@
                 {% endif %}
                 <img loading="lazy" width="1200" height="450"
                      src="{{ image.url }}"
-                     style="width:100%;object-fit:cover;border-radius:var(--radius-l);"
+                     style="width:100%;aspect-ratio:8/3;object-fit:cover;border-radius:var(--radius-l);"
                      alt="{{ image.alt ?: store.name }}">
             </picture>
         </a>

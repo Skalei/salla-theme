@@ -3,8 +3,9 @@
     Fields (twilight.json → home.hero-reveal): image, video_url, title, subtitle, cta_label, cta_url
     One bold visual, one line, one CTA. Nothing covers the product.
 #}
+{% set hero_url = cta_url.url is defined ? cta_url.url : cta_url %}
 <section class="hero-reveal" data-world="chocolate">
-    <div class="hero-reveal__media">
+    {% if hero_url %}<a class="hero-reveal__media" href="{{ hero_url }}" aria-label="{{ title ?: store.name }}">{% else %}<div class="hero-reveal__media">{% endif %}
         {% if video_url %}
             <video autoplay muted loop playsinline poster="{{ image }}" aria-hidden="true">
                 <source src="{{ video_url }}" type="video/mp4">
@@ -13,15 +14,15 @@
             <img fetchpriority="high" loading="eager" width="1600" height="900"
                  src="{{ image }}" alt="{{ title ?: store.name }}">
         {% endif %}
-    </div>
+    {% if hero_url %}</a>{% else %}</div>{% endif %}
     <div class="hero-reveal__scrim" aria-hidden="true"></div>
 
     <div class="container">
         <div class="hero-reveal__content">
             {% if title %}<h2 class="hero-reveal__title">{{ title }}</h2>{% endif %}
             {% if subtitle %}<p class="hero-reveal__subtitle">{{ subtitle }}</p>{% endif %}
-            {% if cta_url %}
-                <a class="btn btn--primary" href="{{ cta_url.url is defined ? cta_url.url : cta_url }}">{{ cta_label ?: trans('wow.home.spotlight_cta') }}</a>
+            {% if hero_url %}
+                <a class="btn btn--primary" href="{{ hero_url }}">{{ cta_label ?: trans('wow.home.spotlight_cta') }}</a>
             {% endif %}
         </div>
     </div>

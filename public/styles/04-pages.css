@@ -24,6 +24,22 @@
   background: var(--bg-surface);
   box-shadow: var(--shadow-soft);
 }
+/* Cap every gallery image/video to a consistent square, whatever the
+   source photo's native dimensions are — this is what was rendering huge. */
+.product-hero__gallery [slot="items"] img,
+.product-hero__gallery [slot="items"] video {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.product-hero__gallery [slot="thumbs"] img {
+  aspect-ratio: 1 / 1;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radius-s);
+}
 .product-hero__info {
   display: flex;
   flex-direction: column;
@@ -37,7 +53,7 @@
   color: var(--text-soft);
 }
 .product-hero__brandline img { height: 26px; width: auto; }
-.product-hero__title { font-size: var(--fs-h1); }
+.product-hero__title { font-size: var(--fs-page-title); }
 .product-hero__subtitle { color: var(--text-soft); }
 .product-price { display: flex; align-items: baseline; gap: 0.75rem; }
 .product-price__current { font-size: var(--fs-h2); font-weight: 700; color: var(--world-deep); }
@@ -58,9 +74,33 @@
 .product-share {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
+  flex-wrap: wrap;
   color: var(--text-soft);
   font-size: var(--fs-small);
+}
+/* salla-social-share ships icons sized for a full-page footer context;
+   scope them down to fit inline next to the buy box. */
+.product-share salla-social-share {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+.product-share salla-social-share svg,
+.product-share salla-social-share img,
+.product-share salla-social-share i,
+.product-share salla-social-share a {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  font-size: 15px !important;
+}
+.product-share salla-social-share ul,
+.product-share salla-social-share [class*="list"] {
+  display: flex !important;
+  gap: 0.4rem !important;
 }
 
 /* Sticky mobile buy bar */
@@ -91,7 +131,7 @@
    PRODUCT LISTING
    ============================================================ */
 .listing-head { margin-bottom: var(--space-3); }
-.listing-head__title { font-size: var(--fs-h1); }
+.listing-head__title { font-size: var(--fs-page-title); }
 .listing-head__count { color: var(--text-soft); font-size: var(--fs-small); }
 .listing-toolbar {
   display: flex;

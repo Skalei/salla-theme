@@ -10,7 +10,7 @@
                     <a href="{{ item.url }}">
                         <img loading="{{ loop.first ? 'eager' : 'lazy' }}" width="1200" height="500"
                              src="{{ item.image.url }}"
-                             style="width:100%;object-fit:cover;border-radius:var(--radius-l);"
+                             style="width:100%;aspect-ratio:12/5;object-fit:cover;border-radius:var(--radius-l);"
                              alt="{{ item.image.alt ?: store.name ~ ' slide ' ~ index }}">
                     </a>
                 </div>

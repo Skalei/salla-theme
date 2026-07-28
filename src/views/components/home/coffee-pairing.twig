@@ -5,10 +5,17 @@
 #}
 <section class="section section--tight" data-world="coffee">
     <div class="container">
+        {% set pairing_url = url.url is defined ? url.url : url %}
         <div class="pairing">
-            <div class="pairing__media">
-                <img loading="lazy" width="1200" height="800" src="{{ image }}" alt="{{ title ?: trans('wow.worlds.coffee_tab') }}">
-            </div>
+            {% if pairing_url %}
+                <a class="pairing__media" href="{{ pairing_url }}" aria-label="{{ title ?: trans('wow.worlds.coffee_tab') }}">
+                    <img loading="lazy" width="1200" height="800" src="{{ image }}" alt="{{ title ?: trans('wow.worlds.coffee_tab') }}">
+                </a>
+            {% else %}
+                <div class="pairing__media">
+                    <img loading="lazy" width="1200" height="800" src="{{ image }}" alt="{{ title ?: trans('wow.worlds.coffee_tab') }}">
+                </div>
+            {% endif %}
             <div class="pairing__body">
                 {% if title %}<h2>{{ title }}</h2>{% endif %}
                 {% if description %}<p>{{ description }}</p>{% endif %}
@@ -24,8 +31,8 @@
                     </div>
                 {% endif %}
 
-                {% if url %}
-                    <a class="btn btn--deep" href="{{ url.url is defined ? url.url : url }}">{{ trans('wow.worlds.cross_cta') }}</a>
+                {% if pairing_url %}
+                    <a class="btn btn--deep" href="{{ pairing_url }}">{{ trans('wow.worlds.cross_cta') }}</a>
                 {% endif %}
             </div>
         </div>

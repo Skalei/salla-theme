@@ -512,7 +512,12 @@ html[dir="ltr"] .gifting__scrim {
   align-items: center;
 }
 @media (min-width: 900px) { .world-story { grid-template-columns: 1fr 1fr; } }
-.world-story__media img { border-radius: var(--radius-l); width: 100%; }
+.world-story__media img {
+  border-radius: var(--radius-l);
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
 .world-story__eyebrow {
   color: var(--world-accent);
   font-weight: 700;

@@ -8,16 +8,16 @@
 
 <section class="section section--tight gifting-entry">
     <div class="container">
-        <div class="gifting">
+        {% if gift_url %}<a class="gifting" href="{{ gift_url }}" aria-label="{{ title ?: trans('wow.home.discover_all') }}">{% else %}<div class="gifting">{% endif %}
             <img class="gifting__bg" loading="lazy" width="1200" height="600" src="{{ image }}" alt="">
             <div class="gifting__scrim" aria-hidden="true"></div>
             <div class="gifting__body">
                 {% if title %}<h2>{{ title }}</h2>{% endif %}
                 {% if description %}<p>{{ description }}</p>{% endif %}
                 {% if gift_url %}
-                    <a class="btn btn--primary" href="{{ gift_url }}">{{ cta_label ?: trans('wow.home.discover_all') }}</a>
+                    <span class="btn btn--primary">{{ cta_label ?: trans('wow.home.discover_all') }}</span>
                 {% endif %}
             </div>
-        </div>
+        {% if gift_url %}</a>{% else %}</div>{% endif %}
     </div>
 </section>
