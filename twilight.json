@@ -270,7 +270,8 @@
                     "format": "image",
                     "required": true,
                     "placeholder": null,
-                    "description": "* لقطة الكسر/الكشف بمقاس 1600×900 بكسل — خلّ المنتج هو البطل"
+                    "description": "* لقطة الكسر/الكشف — سيُطلب منك قص الصورة لهذا المقاس عند الرفع",
+                    "settings": { "width": 1600, "height": 900 }
                 },
                 {
                     "type": "string",
@@ -366,7 +367,8 @@
                     "format": "image",
                     "required": true,
                     "placeholder": null,
-                    "description": "* المقاس المناسب 800×1000 بكسل"
+                    "description": "* سيُطلب منك قص الصورة لهذا المقاس عند الرفع",
+                    "settings": { "width": 800, "height": 1000 }
                 },
                 {
                     "type": "string",
@@ -377,7 +379,8 @@
                     "format": "image",
                     "required": true,
                     "placeholder": null,
-                    "description": "* المقاس المناسب 800×1000 بكسل"
+                    "description": "* سيُطلب منك قص الصورة لهذا المقاس عند الرفع",
+                    "settings": { "width": 800, "height": 1000 }
                 },
                 {
                     "type": "string",
@@ -583,7 +586,8 @@
                     "format": "image",
                     "required": true,
                     "placeholder": null,
-                    "description": "* لقطة شوكولاتة مع فنجان — 1200×800 بكسل"
+                    "description": "* لقطة شوكولاتة مع فنجان — سيُطلب منك قص الصورة لهذا المقاس عند الرفع",
+                    "settings": { "width": 1200, "height": 800 }
                 },
                 {
                     "type": "string",
@@ -692,7 +696,8 @@
                             "format": "image",
                             "required": true,
                             "placeholder": null,
-                            "description": "* مقاس عمودي 720×1280 بكسل (مثل الريلز)"
+                            "description": "* عمودي مثل الريلز — سيُطلب منك قص الصورة لهذا المقاس عند الرفع",
+                            "settings": { "width": 720, "height": 1280 }
                         },
                         {
                             "type": "string",
@@ -756,7 +761,8 @@
                     "format": "image",
                     "required": true,
                     "placeholder": null,
-                    "description": "* المقاس المناسب 1200×600 بكسل"
+                    "description": "* سيُطلب منك قص الصورة لهذا المقاس عند الرفع",
+                    "settings": { "width": 1200, "height": 600 }
                 },
                 {
                     "type": "string",

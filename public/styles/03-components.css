@@ -547,3 +547,26 @@ html[dir="ltr"] .gifting__scrim {
    ============================================================ */
 salla-products-list { display: block; }
 salla-slider { --slider-radius: var(--radius-m); }
+
+/* Photos slider / fixed banner run inside <salla-slider>, whose Swiper
+   engine sets image width/height at runtime via JS — that always wins
+   over a plain rule (and even over inline style="" written in the twig
+   template), so these MUST be !important in the external stylesheet to
+   actually stick. This is what was causing the stretched/wrong-size
+   test images. */
+.photos-slider__img,
+.photos-slider .swiper-slide img {
+  width: 100% !important;
+  aspect-ratio: 12 / 5 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: var(--radius-l);
+}
+.fixed-banner__img,
+.fixed-banner .swiper-slide img {
+  width: 100% !important;
+  aspect-ratio: 8 / 3 !important;
+  height: auto !important;
+  object-fit: cover !important;
+  border-radius: var(--radius-l);
+}

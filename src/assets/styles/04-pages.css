@@ -25,19 +25,25 @@
   box-shadow: var(--shadow-soft);
 }
 /* Cap every gallery image/video to a consistent square, whatever the
-   source photo's native dimensions are — this is what was rendering huge. */
+   source photo's native dimensions are. !important is required here:
+   salla-slider (Swiper) sets width/height on slide images at runtime via
+   JS, which otherwise wins over any plain CSS rule regardless of
+   selector specificity — only an !important stylesheet rule beats it. */
 .product-hero__gallery [slot="items"] img,
-.product-hero__gallery [slot="items"] video {
-  aspect-ratio: 1 / 1;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+.product-hero__gallery [slot="items"] video,
+.product-hero__gallery .swiper-slide img,
+.product-hero__gallery .swiper-slide video {
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
 }
-.product-hero__gallery [slot="thumbs"] img {
-  aspect-ratio: 1 / 1;
-  width: 72px;
-  height: 72px;
-  object-fit: cover;
+.product-hero__gallery [slot="thumbs"] img,
+.product-hero__gallery .swiper-slide img[slot="thumbs"] {
+  aspect-ratio: 1 / 1 !important;
+  width: 72px !important;
+  height: 72px !important;
+  object-fit: cover !important;
   border-radius: var(--radius-s);
 }
 .product-hero__info {
